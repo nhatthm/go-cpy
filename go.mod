@@ -1,4 +1,4 @@
-module github.com/go-python/cpy3
+module github.com/sublime-security/cpy3
 
 go 1.18
 
