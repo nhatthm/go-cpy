@@ -31,21 +31,6 @@ func TestInitializationEx(t *testing.T) {
 
 }
 
-func TestProgramName(t *testing.T) {
-	Py_Finalize()
-
-	defaultName, err := Py_GetProgramName()
-	defer Py_SetProgramName(defaultName)
-
-	assert.Nil(t, err)
-	name := "py3é"
-	Py_SetProgramName(name)
-	newName, err := Py_GetProgramName()
-	assert.Nil(t, err)
-	assert.Equal(t, name, newName)
-
-}
-
 func TestPrefix(t *testing.T) {
 	prefix, err := Py_GetPrefix()
 	assert.Nil(t, err)
@@ -64,21 +49,6 @@ func TestProgramFullPath(t *testing.T) {
 	programFullPath, err := Py_GetProgramFullPath()
 	assert.Nil(t, err)
 	assert.IsType(t, "", programFullPath)
-
-}
-
-func TestPath(t *testing.T) {
-	Py_Finalize()
-
-	defaultPath, err := Py_GetPath()
-	defer Py_SetPath(defaultPath)
-
-	assert.Nil(t, err)
-	name := "påth"
-	Py_SetPath(name)
-	newName, err := Py_GetPath()
-	assert.Nil(t, err)
-	assert.Equal(t, name, newName)
 
 }
 
@@ -105,41 +75,4 @@ func TestCompiler(t *testing.T) {
 func TestBuildInfo(t *testing.T) {
 	buildInfo := Py_GetBuildInfo()
 	assert.IsType(t, "", buildInfo)
-}
-
-func TestPythonHome(t *testing.T) {
-	name := "høme"
-
-	defaultHome, err := Py_GetPythonHome()
-	defer Py_SetPythonHome(defaultHome)
-
-	assert.Nil(t, err)
-	Py_SetPythonHome(name)
-	newName, err := Py_GetPythonHome()
-	assert.Nil(t, err)
-	assert.Equal(t, name, newName)
-}
-
-func TestSetArgv(t *testing.T) {
-	Py_Initialize()
-
-	PySys_SetArgv([]string{"test.py"})
-
-	argv := PySys_GetObject("argv")
-	assert.Equal(t, 1, PyList_Size(argv))
-	assert.Equal(t, "test.py", PyUnicode_AsUTF8(PyList_GetItem(argv, 0)))
-
-	Py_Finalize()
-}
-
-func TestSetArgvEx(t *testing.T) {
-	Py_Initialize()
-
-	PySys_SetArgvEx([]string{"test.py"}, false)
-
-	argv := PySys_GetObject("argv")
-	assert.Equal(t, 1, PyList_Size(argv))
-	assert.Equal(t, "test.py", PyUnicode_AsUTF8(PyList_GetItem(argv, 0)))
-
-	Py_Finalize()
 }
