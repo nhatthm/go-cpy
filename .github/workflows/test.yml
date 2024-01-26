@@ -24,19 +24,20 @@ jobs:
 
       - id: go-cache-paths
         run: |
-          go env | grep -E "^GO" >> "$GITHUB_ENV"
+          echo ":go-build=$(go env GOCACHE)" >> "$GITHUB_OUTPUT"
+          echo ":go-mod=$(go env GOMODCACHE)" >> "$GITHUB_OUTPUT"
 
       - name: Go Build Cache
         uses: actions/cache@v4
         with:
-          path: ${{ env.GOCACHE }}
+          path: ${{ steps.go-cache-paths.outputs.go-build }}
           key: ${{ runner.os }}-go-build-${{ github.sha }}
           restore-keys: ${{ runner.os }}-go-build-
 
       - name: Go Mod Cache
         uses: actions/cache@v4
         with:
-          path: ${{ env.GOMODCACHE }}
+          path: ${{ steps.go-cache-paths.outputs.go-mod }}
           key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-go-mod-
 
