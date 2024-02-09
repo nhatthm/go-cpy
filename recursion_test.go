@@ -1,16 +1,17 @@
-package python3
+package cpy3_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestRecursion(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	assert.Zero(t, Py_EnterRecursiveCall("in test function"))
+	assert.Zero(t, cpy3.Py_EnterRecursiveCall("in test function"))
 
-	Py_LeaveRecursiveCall()
-
+	cpy3.Py_LeaveRecursiveCall()
 }

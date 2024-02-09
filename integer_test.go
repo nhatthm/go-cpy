@@ -1,137 +1,171 @@
-/*
-Unless explicitly stated otherwise all files in this repository are licensed
-under the MIT License.
-This product includes software developed at Datadog (https://www.datadoghq.com/).
-Copyright 2018 Datadog, Inc.
-*/
-
-package python3
+package cpy3_test
 
 import (
 	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestPyLongCheck(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	pyLong := PyLong_FromGoInt(345)
-	assert.True(t, PyLong_Check(pyLong))
-	assert.True(t, PyLong_CheckExact(pyLong))
-	pyLong.DecRef()
+	pyLong := cpy3.PyLong_FromGoInt(345)
+	defer pyLong.DecRef()
+
+	assert.True(t, cpy3.PyLong_Check(pyLong))
+	assert.True(t, cpy3.PyLong_CheckExact(pyLong))
 }
 
 func TestPyLongFromAsLong(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := 2354
-	pyLong := PyLong_FromLong(v)
+
+	pyLong := cpy3.PyLong_FromLong(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsLong(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsLong(pyLong))
 }
 
 func TestPyLongFromAsUnsignedLong(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := uint(2354)
-	pyLong := PyLong_FromUnsignedLong(v)
+
+	pyLong := cpy3.PyLong_FromUnsignedLong(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsUnsignedLong(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsUnsignedLong(pyLong))
 }
 
 func TestPyLongFromAsLongLong(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := int64(2354)
-	pyLong := PyLong_FromLongLong(v)
+
+	pyLong := cpy3.PyLong_FromLongLong(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsLongLong(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsLongLong(pyLong))
 }
 
 func TestPyLongFromAsUnsignedLongLong(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := uint64(2354)
-	pyLong := PyLong_FromUnsignedLongLong(v)
+
+	pyLong := cpy3.PyLong_FromUnsignedLongLong(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsUnsignedLongLong(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsUnsignedLongLong(pyLong))
 }
 
 func TestPyLongFromAsDouble(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := float64(2354.0)
-	pyLong := PyLong_FromDouble(v)
+
+	pyLong := cpy3.PyLong_FromDouble(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsDouble(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsDouble(pyLong))
 }
 
 func TestPyLongFromAsGoFloat64(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := float64(2354.0)
-	pyLong := PyLong_FromGoFloat64(v)
+
+	pyLong := cpy3.PyLong_FromGoFloat64(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsDouble(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsDouble(pyLong))
 }
 
 func TestPyLongFromAsString(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := 2354
 	s := strconv.Itoa(v)
-	pyLong := PyLong_FromString(s, 10)
+
+	pyLong := cpy3.PyLong_FromString(s, 10)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsLong(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsLong(pyLong))
 }
 
 func TestPyLongFromAsUnicodeObject(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := 2354
 	s := strconv.Itoa(v)
-	pyUnicode := PyUnicode_FromString(s)
+
+	pyUnicode := cpy3.PyUnicode_FromString(s)
+	defer pyUnicode.DecRef()
+
 	assert.NotNil(t, pyUnicode)
-	pyLong := PyLong_FromUnicodeObject(pyUnicode, 10)
+
+	pyLong := cpy3.PyLong_FromUnicodeObject(pyUnicode, 10)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsLong(pyLong))
-	pyLong.DecRef()
-	pyUnicode.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsLong(pyLong))
 }
 
 func TestPyLongFromAsGoInt(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := 2354
-	pyLong := PyLong_FromGoInt(v)
+
+	pyLong := cpy3.PyLong_FromGoInt(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsLong(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsLong(pyLong))
 }
 
 func TestPyLongFromAsGoUint(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := uint(2354)
-	pyLong := PyLong_FromGoUint(v)
+
+	pyLong := cpy3.PyLong_FromGoUint(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsUnsignedLong(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsUnsignedLong(pyLong))
 }
 
 func TestPyLongFromAsGoInt64(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := int64(2354)
-	pyLong := PyLong_FromGoInt64(v)
+
+	pyLong := cpy3.PyLong_FromGoInt64(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsLongLong(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsLongLong(pyLong))
 }
 
 func TestPyLongFromAsGoUint64(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
+
 	v := uint64(2354)
-	pyLong := PyLong_FromGoUint64(v)
+
+	pyLong := cpy3.PyLong_FromGoUint64(v)
+	defer pyLong.DecRef()
+
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, PyLong_AsUnsignedLongLong(pyLong))
-	pyLong.DecRef()
+	assert.Equal(t, v, cpy3.PyLong_AsUnsignedLongLong(pyLong))
 }

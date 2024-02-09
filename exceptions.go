@@ -1,11 +1,4 @@
-/*
-Unless explicitly stated otherwise all files in this repository are licensed
-under the MIT License.
-This product includes software developed at Datadog (https://www.datadoghq.com/).
-Copyright 2018 Datadog, Inc.
-*/
-
-package python3
+package cpy3
 
 /*
 #include "Python.h"
@@ -16,10 +9,9 @@ import (
 	"unsafe"
 )
 
-/*
-All standard Python exceptions are available as global variables whose names are PyExc_ followed by the Python exception name.
-These have the type PyObject*; they are all class objects.
-*/
+// All standard Python exceptions are available as global variables whose names are PyExc_ followed by the Python
+// exception name.
+// These have the type PyObject*; they are all class objects.
 var (
 	PyExc_BaseException          = togo(C.PyExc_BaseException)
 	PyExc_Exception              = togo(C.PyExc_Exception)
@@ -76,7 +68,11 @@ var (
 	PyExc_ZeroDivisionError      = togo(C.PyExc_ZeroDivisionError)
 )
 
-//PyErr_NewException : https://docs.python.org/3/c-api/exceptions.html#c.PyErr_NewException
+// PyErr_NewException creates and returns a new exception class. The name argument must be the name of the new
+// exception, a C string of the form module.classname. The base and dict arguments are normally NULL.
+// This creates a class object derived from Exception (accessible in C as PyExc_Exception).
+//
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_NewException
 func PyErr_NewException(name string, base, dict *PyObject) *PyObject {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
@@ -84,7 +80,10 @@ func PyErr_NewException(name string, base, dict *PyObject) *PyObject {
 	return togo(C.PyErr_NewException(cname, toc(base), toc(dict)))
 }
 
-//PyErr_NewExceptionWithDoc : https://docs.python.org/3/c-api/exceptions.html#c.PyErr_NewExceptionWithDoc
+// PyErr_NewExceptionWithDoc is the same as PyErr_NewException(), except that the new exception class can easily be
+// given a docstring: If doc is non-NULL, it will be used as the docstring for the exception class.
+//
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_NewExceptionWithDoc
 func PyErr_NewExceptionWithDoc(name, doc string, base, dict *PyObject) *PyObject {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
@@ -95,32 +94,50 @@ func PyErr_NewExceptionWithDoc(name, doc string, base, dict *PyObject) *PyObject
 	return togo(C.PyErr_NewExceptionWithDoc(cname, cdoc, toc(base), toc(dict)))
 }
 
-//PyException_GetTraceback : https://docs.python.org/3/c-api/exceptions.html#c.PyException_GetTraceback
+// PyException_GetTraceback returns the traceback associated with the exception as a new reference, as accessible from
+// Python through the __traceback__ attribute. If there is no traceback associated, this returns NULL.
+//
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyException_GetTraceback
 func PyException_GetTraceback(ex *PyObject) *PyObject {
 	return togo(C.PyException_GetTraceback(toc(ex)))
 }
 
-//PyException_SetTraceback : https://docs.python.org/3/c-api/exceptions.html#c.PyException_SetTraceback
+// PyException_SetTraceback sets the traceback associated with the exception to tb. Use Py_None to clear it.
+//
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyException_SetTraceback
 func PyException_SetTraceback(ex, tb *PyObject) int {
 	return int(C.PyException_SetTraceback(toc(ex), toc(tb)))
 }
 
-//PyException_GetContext : https://docs.python.org/3/c-api/exceptions.html#c.PyException_GetContext
+// PyException_GetContext returns the context (another exception instance during whose handling ex was raised)
+// associated with the exception as a new reference, as accessible from Python through the __context__ attribute.
+// If there is no context associated, this returns NULL.
+//
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyException_GetContext
 func PyException_GetContext(ex *PyObject) *PyObject {
 	return togo(C.PyException_GetContext(toc(ex)))
 }
 
-//PyException_SetContext : https://docs.python.org/3/c-api/exceptions.html#c.PyException_SetContext
+// PyException_SetContext sets the context associated with the exception to ctx. Use NULL to clear it. There is no
+// type check to make sure that ctx is an exception instance. This steals a reference to ctx.
+//
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyException_SetContext
 func PyException_SetContext(ex, ctx *PyObject) {
 	C.PyException_SetContext(toc(ex), toc(ctx))
 }
 
-//PyException_GetCause : https://docs.python.org/3/c-api/exceptions.html#c.PyException_GetCause
+// PyException_GetCause returns the cause (either an exception instance, or None, set by raise ... from ...) associated
+// with the exception as a new reference, as accessible from Python through the __cause__ attribute.
+//
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyException_GetCause
 func PyException_GetCause(ex *PyObject) *PyObject {
 	return togo(C.PyException_GetCause(toc(ex)))
 }
 
-//PyException_SetCause : https://docs.python.org/3/c-api/exceptions.html#c.PyException_SetCause
+// PyException_SetCause sets the cause associated with the exception to cause. Use NULL to clear it. There is no type
+// check to make sure that cause is either an exception instance or None. This steals a reference to cause.
+//
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyException_SetCause
 func PyException_SetCause(ex, cause *PyObject) {
 	C.PyException_SetCause(toc(ex), toc(cause))
 }

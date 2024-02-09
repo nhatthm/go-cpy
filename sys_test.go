@@ -1,25 +1,27 @@
-package python3
+package cpy3_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestSysGetSetObject(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	platform := PySys_GetObject("platform")
+	platform := cpy3.PySys_GetObject("platform")
+
 	assert.NotNil(t, platform)
-	assert.True(t, PyUnicode_Check(platform))
+	assert.True(t, cpy3.PyUnicode_Check(platform))
+
 	platform.IncRef()
 
-	newPlatform := PyUnicode_FromString("test")
+	newPlatform := cpy3.PyUnicode_FromString("test")
 	defer newPlatform.DecRef()
 
-	assert.Zero(t, PySys_SetObject("platform", newPlatform))
-
-	assert.Equal(t, newPlatform, PySys_GetObject("platform"))
-
-	assert.Zero(t, PySys_SetObject("platform", platform))
+	assert.Zero(t, cpy3.PySys_SetObject("platform", newPlatform))
+	assert.Equal(t, newPlatform, cpy3.PySys_GetObject("platform"))
+	assert.Zero(t, cpy3.PySys_SetObject("platform", platform))
 }

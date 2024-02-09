@@ -1,28 +1,23 @@
-/*
-Unless explicitly stated otherwise all files in this repository are licensed
-under the MIT License.
-This product includes software developed at Datadog (https://www.datadoghq.com/).
-Copyright 2018 Datadog, Inc.
-*/
-
-package python3
+package cpy3_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestBoolCheck(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	assert.True(t, PyBool_Check(Py_True))
-	assert.True(t, PyBool_Check(Py_False))
+	assert.True(t, cpy3.PyBool_Check(cpy3.Py_True))
+	assert.True(t, cpy3.PyBool_Check(cpy3.Py_False))
 }
 
 func TestBoolFromLong(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	assert.Equal(t, Py_True, PyBool_FromLong(1))
-	assert.Equal(t, Py_False, PyBool_FromLong(0))
+	assert.Equal(t, cpy3.Py_True, cpy3.PyBool_FromLong(1))
+	assert.Equal(t, cpy3.Py_False, cpy3.PyBool_FromLong(0))
 }

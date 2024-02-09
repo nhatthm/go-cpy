@@ -7,14 +7,13 @@ This package provides a ``go`` package named "python" under which most of the
 exposed. Theoretically, you should be able use https://docs.python.org/3/c-api
 and know what to type in your ``go`` program.
 
-## relation to `DataDog/go-python3`
+## Relation to `DataDog/go-python3`
 
 This project is a community maintained successor to [`DataDog/go-python3`](https://github.com/DataDog/go-python3), which will get archived in December 2021.
 
-- If you use the Go package `github.com/DataDog/go-python3` in your code, you can use `github.com/nhatthm/cpy3` as a drop-in replacement. We intend to not introduce breaking changes.
-- If you have unmerged PRs or open issues on `DataDog/go-python3`, please re-submit them here.
+If you use the Go package `github.com/DataDog/go-python3` in your code, you can use `go.nhat.io/cpy3` as a drop-in replacement. We intend to not introduce breaking changes.
 
-## relation to `sbinet/go-python`
+## Relation to `sbinet/go-python`
 
 This project was inspired by [`sbinet/go-python`](https://github.com/sbinet/go-python) (Go bindings for the CPython-2 C-API).
 
@@ -38,7 +37,7 @@ the `PKG_CONFIG_PATH` environment variable.
 
 ## Go get
 
-Then simply `go get github.com/nhatthm/cpy3`
+Then simply `go get go.nhat.io/cpy3`
 
 # API
 
