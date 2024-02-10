@@ -5,6 +5,7 @@ package cpy3
 #include "Python.h"
 */
 import "C"
+
 import (
 	"fmt"
 	"unsafe"
@@ -33,11 +34,12 @@ func Py_Main(args []string) (int, error) {
 
 	for i, arg := range args {
 		carg := C.CString(arg)
+
 		defers = append(defers, func() { C.free(unsafe.Pointer(carg)) })
 
 		warg := C.Py_DecodeLocale(carg, nil)
 		if warg == nil {
-			return -1, fmt.Errorf("fail to call Py_DecodeLocale on '%s'", arg)
+			return -1, fmt.Errorf("fail to call Py_DecodeLocale on '%s'", arg) //nolint: goerr113
 		}
 
 		// Py_DecodeLocale requires a call to PyMem_RawFree to free the memory
@@ -64,12 +66,12 @@ func PyRun_AnyFile(filename string) (int, error) {
 
 	cfile, err := C.fopen(cfilename, mode)
 	if err != nil {
-		return -1, fmt.Errorf("fail to open '%s': %s", filename, err)
+		return -1, fmt.Errorf("fail to open '%s': %s", filename, err) //nolint: goerr113,errorlint
 	}
 
 	defer C.fclose(cfile)
 
-	// C.PyRun_AnyFile is a macro, using C.PyRun_AnyFileFlags instead
+	// C.PyRun_AnyFile is a macro, using C.PyRun_AnyFileFlags instead.
 	return int(C.PyRun_AnyFileFlags(cfile, cfilename, nil)), nil
 }
 

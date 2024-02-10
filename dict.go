@@ -5,6 +5,7 @@ package cpy3
 #include "macro.h"
 */
 import "C"
+
 import (
 	"unsafe"
 )
@@ -181,7 +182,7 @@ func PyDict_Next(p *PyObject, ppos *int, pkey, pvalue **PyObject) bool {
 	ckey := toc(*pkey)
 	cvalue := toc(*pvalue)
 
-	res := C.PyDict_Next(toc(p), &cpos, &ckey, &cvalue) != 0
+	res := C.PyDict_Next(toc(p), &cpos, &ckey, &cvalue) != 0 //nolint: gocritic
 
 	*ppos = int(cpos)
 	*pkey = togo(ckey)

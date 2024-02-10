@@ -116,9 +116,9 @@ func TestCallable(t *testing.T) {
 
 	assert.True(t, cpy3.PyDict_Check(builtins))
 
-	len := cpy3.PyDict_GetItemString(builtins, "len")
+	builtinsLength := cpy3.PyDict_GetItemString(builtins, "len")
 
-	assert.True(t, cpy3.PyCallable_Check(len))
+	assert.True(t, cpy3.PyCallable_Check(builtinsLength))
 
 	emptyList := cpy3.PyList_New(0)
 
@@ -131,19 +131,19 @@ func TestCallable(t *testing.T) {
 
 	cpy3.PyTuple_SetItem(args, 0, emptyList)
 
-	length := len.Call(args, nil)
+	length := builtinsLength.Call(args, nil)
 	defer length.DecRef()
 
 	assert.True(t, cpy3.PyLong_Check(length))
 	assert.Equal(t, 0, cpy3.PyLong_AsLong(length))
 
-	length = len.CallObject(args)
+	length = builtinsLength.CallObject(args)
 	defer length.DecRef()
 
 	assert.True(t, cpy3.PyLong_Check(length))
 	assert.Equal(t, 0, cpy3.PyLong_AsLong(length))
 
-	length = len.CallFunctionObjArgs(emptyList)
+	length = builtinsLength.CallFunctionObjArgs(emptyList)
 	defer length.DecRef()
 
 	assert.True(t, cpy3.PyLong_Check(length))
@@ -223,6 +223,7 @@ func TestNot(t *testing.T) {
 
 func TestLength(t *testing.T) {
 	cpy3.Py_Initialize()
+
 	length := 6
 
 	list := cpy3.PyList_New(length)
@@ -291,7 +292,7 @@ func TestReprEnterLeave(t *testing.T) {
 	defer s.DecRef()
 
 	assert.Zero(t, s.ReprEnter())
-	assert.True(t, s.ReprEnter() > 0)
+	assert.Greater(t, s.ReprEnter(), 0)
 
 	s.ReprLeave()
 	s.ReprLeave()

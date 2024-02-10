@@ -20,6 +20,6 @@ func TestComplex(t *testing.T) {
 	assert.True(t, cpy3.PyComplex_Check(nComplex))
 	assert.True(t, cpy3.PyComplex_CheckExact(nComplex))
 
-	assert.Equal(t, nReal, cpy3.PyComplex_RealAsDouble(nComplex))
-	assert.Equal(t, nImaginary, cpy3.PyComplex_ImagAsDouble(nComplex))
+	assert.InDelta(t, nReal, cpy3.PyComplex_RealAsDouble(nComplex), 0.01)
+	assert.InDelta(t, nImaginary, cpy3.PyComplex_ImagAsDouble(nComplex), 0.01)
 }

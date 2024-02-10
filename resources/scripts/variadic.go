@@ -22,21 +22,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	defer out.Close()
+	defer out.Close() //nolint: errcheck
 
-	if err != nil {
-		fmt.Printf("Error writing to file %s: %s", *output, err)
-		os.Exit(1)
-	}
-
-	out.WriteString("#include \"Python.h\"\n\n")
-	out.WriteString(renderTemplate(*caseNumber, "PyObject_CallFunctionObjArgs", "callable"))
-	out.WriteString(renderTemplate(*caseNumber, "PyObject_CallMethodObjArgs", "obj", "name"))
+	out.WriteString("#include \"Python.h\"\n\n")                                              //nolint: errcheck,gosec
+	out.WriteString(renderTemplate(*caseNumber, "PyObject_CallFunctionObjArgs", "callable"))  //nolint: errcheck,gosec
+	out.WriteString(renderTemplate(*caseNumber, "PyObject_CallMethodObjArgs", "obj", "name")) //nolint: errcheck,gosec
 }
 
 func renderTemplate(n int, functionName string, pyArgs ...string) string {
-	template :=
-		`PyObject* _go_%s(%sint argc, PyObject **argv) {
+	template := `PyObject* _go_%s(%sint argc, PyObject **argv) {
     PyObject *result = NULL;
 
     switch (argc) {

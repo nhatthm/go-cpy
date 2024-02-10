@@ -32,8 +32,8 @@ func PyComplex_CheckExact(p *PyObject) bool {
 // PyComplex_FromDoubles returns a new PyComplexObject object from real and imag.
 //
 // Reference: https://docs.python.org/3/c-api/complex.html#c.PyComplex_FromDoubles
-func PyComplex_FromDoubles(real, imag float64) *PyObject {
-	return togo(C.PyComplex_FromDoubles(C.double(real), C.double(imag)))
+func PyComplex_FromDoubles(realNumber, imaginaryUnit float64) *PyObject {
+	return togo(C.PyComplex_FromDoubles(C.double(realNumber), C.double(imaginaryUnit)))
 }
 
 // PyComplex_RealAsDouble returns the real part of op as a C double.

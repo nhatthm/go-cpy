@@ -32,8 +32,8 @@ func PyTuple_CheckExact(p *PyObject) bool {
 // PyTuple_New returns a new tuple object of size len, or NULL on failure.
 //
 // Reference: https://docs.python.org/3/c-api/tuple.html#c.PyTuple_New
-func PyTuple_New(len int) *PyObject {
-	return togo(C.PyTuple_New(C.Py_ssize_t(len)))
+func PyTuple_New(length int) *PyObject {
+	return togo(C.PyTuple_New(C.Py_ssize_t(length)))
 }
 
 // PyTuple_Size returns the size of the tuple.

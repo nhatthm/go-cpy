@@ -77,7 +77,7 @@ func PyModule_GetName(module *PyObject) string {
 //
 // Reference: https://docs.python.org/3/c-api/module.html#c.PyModule_GetState
 func PyModule_GetState(module *PyObject) unsafe.Pointer {
-	return unsafe.Pointer(C.PyModule_GetState(toc(module)))
+	return unsafe.Pointer(C.PyModule_GetState(toc(module))) //nolint: unconvert
 }
 
 // PyModule_GetFilenameObject returns the name of the file from which module was loaded using module's __file__

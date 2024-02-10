@@ -65,6 +65,7 @@ func TestByteArrayResize(t *testing.T) {
 	defer array1.DecRef()
 
 	length := 20
+
 	cpy3.PyByteArray_Resize(array1, 20)
 
 	assert.Equal(t, length, cpy3.PyByteArray_Size(array1))

@@ -27,7 +27,7 @@ func printList() error {
 	list := cpy3.PyList_New(5)
 
 	if exc := cpy3.PyErr_Occurred(); list == nil && exc != nil {
-		return fmt.Errorf("Fail to create python list object")
+		return fmt.Errorf("fail to create python list object") //nolint: goerr113
 	}
 
 	defer list.DecRef()
@@ -35,8 +35,9 @@ func printList() error {
 	repr, err := pythonRepr(list)
 
 	if err != nil {
-		return fmt.Errorf("fail to get representation of object list")
+		return fmt.Errorf("fail to get representation of object list") //nolint: goerr113
 	}
+
 	fmt.Printf("python list: %s\n", repr)
 
 	return nil
@@ -44,13 +45,13 @@ func printList() error {
 
 func pythonRepr(o *cpy3.PyObject) (string, error) {
 	if o == nil {
-		return "", fmt.Errorf("object is nil")
+		return "", fmt.Errorf("object is nil") //nolint: goerr113
 	}
 
 	s := o.Repr()
 	if s == nil {
 		cpy3.PyErr_Clear()
-		return "", fmt.Errorf("failed to call Repr object method")
+		return "", fmt.Errorf("failed to call Repr object method") //nolint: goerr113
 	}
 
 	defer s.DecRef()

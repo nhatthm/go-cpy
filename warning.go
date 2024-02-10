@@ -54,8 +54,10 @@ func PyErr_WarnExplicitObject(category *PyObject, message *PyObject, filename *P
 func PyErr_WarnExplicit(category *PyObject, message string, filename string, lineno int, module string, registry *PyObject) int {
 	cmessage := C.CString(message)
 	defer C.free(unsafe.Pointer(cmessage))
+
 	cfilename := C.CString(filename)
 	defer C.free(unsafe.Pointer(cfilename))
+
 	cmodule := C.CString(module)
 	defer C.free(unsafe.Pointer(cmodule))
 

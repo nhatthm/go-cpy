@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"go.nhat.io/cpy3"
 )
@@ -14,7 +15,7 @@ func TestRunFile(t *testing.T) {
 
 	pyErr, err := cpy3.PyRun_AnyFile("resources/fixtures/test.py")
 	assert.Zero(t, pyErr)
-	assert.Nil(t, err)
+	require.NoError(t, err)
 
 	stdout := cpy3.PySys_GetObject("stdout")
 
@@ -28,7 +29,7 @@ func TestRunString(t *testing.T) {
 	cpy3.Py_Initialize()
 
 	pythonCode, err := os.ReadFile("resources/fixtures/test.py")
-	assert.Nil(t, err)
+	require.NoError(t, err)
 
 	assert.Zero(t, cpy3.PyRun_SimpleString(string(pythonCode)))
 
@@ -46,5 +47,5 @@ func TestPyMain(t *testing.T) {
 	pyErr, err := cpy3.Py_Main([]string{"resources/fixtures/test.py"})
 
 	assert.Zero(t, pyErr)
-	assert.Nil(t, err)
+	require.NoError(t, err)
 }

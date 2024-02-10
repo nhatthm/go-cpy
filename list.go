@@ -32,8 +32,8 @@ func PyList_CheckExact(p *PyObject) bool {
 // PyList_New returns a new list of length len on success, or NULL on failure.
 //
 // Reference: https://docs.python.org/3/c-api/list.html#c.PyList_New
-func PyList_New(len int) *PyObject {
-	return togo(C.PyList_New(C.Py_ssize_t(len)))
+func PyList_New(length int) *PyObject {
+	return togo(C.PyList_New(C.Py_ssize_t(length)))
 }
 
 // PyList_Size returns the length of the list object in list; this is equivalent to len(list) on a list object.

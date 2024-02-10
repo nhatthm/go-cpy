@@ -15,9 +15,10 @@ func TestModuleCheck(t *testing.T) {
 	name := "test_module"
 
 	module := cpy3.PyModule_New(name)
+	defer module.DecRef()
+
 	assert.True(t, cpy3.PyModule_Check(module))
 	assert.True(t, cpy3.PyModule_CheckExact(module))
-	defer module.DecRef()
 }
 
 func TestModuleNew(t *testing.T) {
@@ -26,8 +27,9 @@ func TestModuleNew(t *testing.T) {
 	name := "test_module"
 
 	module := cpy3.PyModule_New(name)
-	assert.NotNil(t, module)
 	defer module.DecRef()
+
+	assert.NotNil(t, module)
 }
 
 func TestModuleNewObject(t *testing.T) {
@@ -36,18 +38,21 @@ func TestModuleNewObject(t *testing.T) {
 	name := "test_module"
 
 	pyName := cpy3.PyUnicode_FromString(name)
-	assert.NotNil(t, pyName)
 	defer pyName.DecRef()
 
+	assert.NotNil(t, pyName)
+
 	module := cpy3.PyModule_NewObject(pyName)
-	assert.NotNil(t, module)
 	defer module.DecRef()
+
+	assert.NotNil(t, module)
 }
 
 func TestModuleGetDict(t *testing.T) {
 	cpy3.Py_Initialize()
 
 	name := "sys"
+
 	pyName := cpy3.PyUnicode_FromString(name)
 	defer pyName.DecRef()
 
@@ -55,6 +60,7 @@ func TestModuleGetDict(t *testing.T) {
 	defer sys.DecRef()
 
 	dict := cpy3.PyModule_GetDict(sys)
+
 	assert.True(t, cpy3.PyDict_Check(dict))
 }
 
@@ -62,6 +68,7 @@ func TestModuleGetName(t *testing.T) {
 	cpy3.Py_Initialize()
 
 	name := "sys"
+
 	pyName := cpy3.PyUnicode_FromString(name)
 	defer pyName.DecRef()
 
@@ -75,6 +82,7 @@ func TestModuleGetNameObject(t *testing.T) {
 	cpy3.Py_Initialize()
 
 	name := "sys"
+
 	pyName := cpy3.PyUnicode_FromString(name)
 	defer pyName.DecRef()
 
@@ -88,6 +96,7 @@ func TestModuleGetState(t *testing.T) {
 	cpy3.Py_Initialize()
 
 	name := "sys"
+
 	pyName := cpy3.PyUnicode_FromString(name)
 	defer pyName.DecRef()
 
@@ -95,19 +104,21 @@ func TestModuleGetState(t *testing.T) {
 	defer sys.DecRef()
 
 	state := cpy3.PyModule_GetState(sys)
-	assert.True(t, state == nil)
+
+	assert.Nil(t, state)
 }
 
 func TestModuleGetFilenameObject(t *testing.T) {
 	cpy3.Py_Initialize()
 
 	name := "queue"
+
 	queue := cpy3.PyImport_ImportModule(name)
 	defer queue.DecRef()
 
 	pyFilename := cpy3.PyModule_GetFilenameObject(queue)
-	assert.NotNil(t, pyFilename)
 	filename := cpy3.PyUnicode_AsUTF8(pyFilename)
 
+	assert.NotNil(t, pyFilename)
 	assert.True(t, strings.HasSuffix(filename, "/queue.py"))
 }

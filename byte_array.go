@@ -72,6 +72,6 @@ func PyByteArray_AsString(o *PyObject) string {
 // PyByteArray_Resize resizes the internal buffer of bytearray to len.
 //
 // Reference: https://docs.python.org/3/c-api/bytearray.html#c.PyByteArray_Resize
-func PyByteArray_Resize(bytearray *PyObject, len int) {
-	C.PyByteArray_Resize(toc(bytearray), C.Py_ssize_t(len))
+func PyByteArray_Resize(bytearray *PyObject, length int) {
+	C.PyByteArray_Resize(toc(bytearray), C.Py_ssize_t(length))
 }
