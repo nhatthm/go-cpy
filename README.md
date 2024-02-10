@@ -1,69 +1,69 @@
 # Go bindings for the CPython-3 C-API
 
-**Currently supports python-3.11 only.**
+> [!IMPORTANT]
+> **Currently supports python-3.11 only.**
 
-This package provides a ``go`` package named "python" under which most of the
-``PyXYZ`` functions and macros of the public C-API of CPython have been
-exposed. Theoretically, you should be able use https://docs.python.org/3/c-api
+This package provides a ``go`` package named "python" under which most of the ``PyXYZ`` functions and macros of the 
+public C-API of CPython have been exposed. Theoretically, you should be able use https://docs.python.org/3/c-api
 and know what to type in your ``go`` program.
 
-## Relation to `DataDog/go-python3`
+## Prerequisites
 
-This project is a community maintained successor to [`DataDog/go-python3`](https://github.com/DataDog/go-python3), which will get archived in December 2021.
+- 'go >= 1.21'
+- `python = 3.11`
 
-If you use the Go package `github.com/DataDog/go-python3` in your code, you can use `go.nhat.io/cpy3` as a drop-in replacement. We intend to not introduce breaking changes.
-
-## Relation to `sbinet/go-python`
-
-This project was inspired by [`sbinet/go-python`](https://github.com/sbinet/go-python) (Go bindings for the CPython-2 C-API).
-
-# Install
-
-## Deps
-
-### macOS
-* Install brew
-* `brew install python@3.11`
-* `brew install pkg-config`
+### MacOS
+  - `brew install python@3.11`
+  - `brew install pkg-config`
 
 ### Linux
-We will need `pkg-config` and a working `python3.11` environment to build these
-bindings. Make sure you have Python libraries and header files installed as
-well (`python3.11-dev` on Debian, `brew install python@3.11` on macOS, or `python3-devel` on Centos for example)..
 
-By default `pkg-config` will look at the `python3` library so if you want to
-choose a specific version just symlink `python-X.Y.pc` to `python3.pc` or use
-the `PKG_CONFIG_PATH` environment variable.
+We will need `pkg-config` and a working `python3.11` environment to build these bindings. Make sure you have Python 
+libraries and header files installed as well (`python3.11-dev` on Debian, `brew install python@3.11` on macOS, or 
+`python3-devel` on Centos for example).
 
-## Go get
+By default `pkg-config` will look at the `python3` library so if you want to choose a specific version just symlink 
+`python-X.Y.pc` to `python3.pc` or use the `PKG_CONFIG_PATH` environment variable.
 
-Then simply `go get go.nhat.io/cpy3`
+## Install
 
-# API
+```shell
+go get go.nhat.io/cpy3
+```
 
-Some functions mix go code and call to Python function. Those functions will
-return and `int` and `error` type. The `int` represent the Python result code
-and the `error` represent any issue from the Go layer.
+## API
+
+Some functions mix go code and call to Python function. Those functions will return and `int` and `error` type. The 
+`int` represent the Python result code and the `error` represent any issue from the Go layer.
 
 Example:
 
-`func PyRun_AnyFile(filename string)` open `filename` and then call CPython API
-function `int PyRun_AnyFile(FILE *fp, const char *filename)`.
+`func PyRun_AnyFile(filename string)` open `filename` and then call CPython API function 
+`int PyRun_AnyFile(FILE *fp, const char *filename)`.
 
-Therefore its signature is `func PyRun_AnyFile(filename string) (int, error)`,
-the `int` represent the error code from the CPython `PyRun_AnyFile` function
-and error will be set if we failed to open `filename`.
+Therefore, its signature is `func PyRun_AnyFile(filename string) (int, error)`, the `int` represent the error code from 
+the CPython `PyRun_AnyFile` function and error will be set if we failed to open `filename`.
 
 If an error is raise before calling th CPython function `int` default to `-1`.
 
 Take a look at some [examples](examples) and this [tutorial blogpost](https://poweruser.blog/embedding-python-in-go-338c0399f3d5).
 
-# Contributing
+## Contributing
 
 Contributions are welcome! See [details](CONTRIBUTING.md).  
 
+## Relations
 
-# Community
-Find us in [`#go-python`](https://gophers.slack.com/archives/C4FDJLLET) on [Gophers Slack](https://gophers.slack.com). ([infos](https://blog.gopheracademy.com/gophers-slack-community/) | [invite](https://invite.slack.golangbridge.org/))  
-  
-This project follows the [Go Community Code of Conduct](https://golang.org/conduct).
+### Relation to `DataDog/go-python3`
+
+This project is a community maintained successor to [`DataDog/go-python3`](https://github.com/DataDog/go-python3), which will get archived in December 2021.
+
+If you use the Go package `github.com/DataDog/go-python3` in your code, you can use `go.nhat.io/cpy3` as a drop-in replacement. We intend to not introduce breaking changes.
+
+### Relation to `sbinet/go-python`
+
+This project was inspired by [`sbinet/go-python`](https://github.com/sbinet/go-python) (Go bindings for the CPython-2 C-API).
+
+### Relation to `sublime-security/cpy3`
+
+This project was a fork of [`sublime-security`](https://github.com/sublime-security) (Go bindings for the CPython-3 C-API) which only supports python 3.10.  
