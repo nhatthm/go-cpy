@@ -1,36 +1,41 @@
-package python3
+package cpy3_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestExceptionNew(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	exc := PyErr_NewException("test_module.TestException", nil, nil)
-	assert.NotNil(t, exc)
+	exc := cpy3.PyErr_NewException("test_module.TestException", nil, nil)
 	defer exc.DecRef()
+
+	assert.NotNil(t, exc)
 }
 
 func TestExceptionNewDoc(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	exc := PyErr_NewExceptionWithDoc("test_module.TestException", "docstring", nil, nil)
-	assert.NotNil(t, exc)
+	exc := cpy3.PyErr_NewExceptionWithDoc("test_module.TestException", "docstring", nil, nil)
 	defer exc.DecRef()
+
+	assert.NotNil(t, exc)
 }
 
 func TestExceptionContext(t *testing.T) {
 	t.Skip("fatal error: unexpected signal during runtime execution")
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	exc := PyErr_NewException("test_module.TestException", nil, nil)
-	assert.NotNil(t, exc)
+	exc := cpy3.PyErr_NewException("test_module.TestException", nil, nil)
 	defer exc.DecRef()
 
-	PyException_SetContext(exc, PyExc_BrokenPipeError)
+	assert.NotNil(t, exc)
 
-	assert.Equal(t, PyExc_BrokenPipeError, PyException_GetContext(exc))
+	cpy3.PyException_SetContext(exc, cpy3.PyExc_BrokenPipeError)
+
+	assert.Equal(t, cpy3.PyExc_BrokenPipeError, cpy3.PyException_GetContext(exc))
 }

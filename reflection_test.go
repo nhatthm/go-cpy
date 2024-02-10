@@ -1,54 +1,62 @@
-package python3
+package cpy3_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestReflectionBuiltins(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	builtins := PyEval_GetBuiltins()
+	builtins := cpy3.PyEval_GetBuiltins()
+
 	assert.NotNil(t, builtins)
 
-	len := PyDict_GetItemString(builtins, "len")
-	assert.True(t, PyCallable_Check(len))
+	len := cpy3.PyDict_GetItemString(builtins, "len")
+
+	assert.True(t, cpy3.PyCallable_Check(len))
 }
 
 func TestReflectionLocals(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	locals := PyEval_GetLocals()
+	locals := cpy3.PyEval_GetLocals()
+
 	assert.Nil(t, locals)
 }
 
 func TestReflectionGlobals(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	globals := PyEval_GetGlobals()
+	globals := cpy3.PyEval_GetGlobals()
+
 	assert.Nil(t, globals)
 }
 
 func TestReflectionFuncName(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	builtins := PyEval_GetBuiltins()
+	builtins := cpy3.PyEval_GetBuiltins()
+
 	assert.NotNil(t, builtins)
 
-	len := PyDict_GetItemString(builtins, "len")
-	assert.True(t, PyCallable_Check(len))
+	len := cpy3.PyDict_GetItemString(builtins, "len")
 
-	assert.Equal(t, "len", PyEval_GetFuncName(len))
+	assert.True(t, cpy3.PyCallable_Check(len))
+	assert.Equal(t, "len", cpy3.PyEval_GetFuncName(len))
 }
 func TestReflectionFuncDesc(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	builtins := PyEval_GetBuiltins()
+	builtins := cpy3.PyEval_GetBuiltins()
+
 	assert.NotNil(t, builtins)
 
-	len := PyDict_GetItemString(builtins, "len")
-	assert.True(t, PyCallable_Check(len))
+	len := cpy3.PyDict_GetItemString(builtins, "len")
 
-	assert.Equal(t, "()", PyEval_GetFuncDesc(len))
+	assert.True(t, cpy3.PyCallable_Check(len))
+	assert.Equal(t, "()", cpy3.PyEval_GetFuncDesc(len))
 }

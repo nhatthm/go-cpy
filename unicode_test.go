@@ -1,98 +1,105 @@
-package python3
+package cpy3_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestUnicodeNew(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	s := PyUnicode_New(20, 'z')
-	assert.NotNil(t, s)
+	s := cpy3.PyUnicode_New(20, 'z')
 	defer s.DecRef()
+
+	assert.NotNil(t, s)
 }
 
 func TestUnicodeFromString(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	u := PyUnicode_FromString("aaa")
-	assert.True(t, PyUnicode_Check(u))
-	assert.True(t, PyUnicode_CheckExact(u))
+	u := cpy3.PyUnicode_FromString("aaa")
 	defer u.DecRef()
 
-	assert.Equal(t, 3, PyUnicode_GetLength(u))
+	assert.True(t, cpy3.PyUnicode_Check(u))
+	assert.True(t, cpy3.PyUnicode_CheckExact(u))
+	assert.Equal(t, 3, cpy3.PyUnicode_GetLength(u))
 }
 
 func TestUnicodeFromEncodedObject(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	b := PyBytes_FromString("bbb")
-	assert.NotNil(t, b)
+	b := cpy3.PyBytes_FromString("bbb")
 	defer b.DecRef()
-	ub := PyUnicode_FromEncodedObject(b, "utf-8", "strict")
-	assert.NotNil(t, ub)
+
+	assert.NotNil(t, b)
+
+	ub := cpy3.PyUnicode_FromEncodedObject(b, "utf-8", "strict")
 	defer ub.DecRef()
+
+	assert.NotNil(t, ub)
 }
 
 func TestUnicodeChar(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	u := PyUnicode_FromString("aaa")
-	assert.True(t, PyUnicode_Check(u))
-	assert.True(t, PyUnicode_CheckExact(u))
+	u := cpy3.PyUnicode_FromString("aaa")
 	defer u.DecRef()
 
-	assert.Equal(t, 0, PyUnicode_WriteChar(u, 1, 'd'))
-
-	assert.Equal(t, 'd', PyUnicode_ReadChar(u, 1))
+	assert.True(t, cpy3.PyUnicode_Check(u))
+	assert.True(t, cpy3.PyUnicode_CheckExact(u))
+	assert.Equal(t, 0, cpy3.PyUnicode_WriteChar(u, 1, 'd'))
+	assert.Equal(t, 'd', cpy3.PyUnicode_ReadChar(u, 1))
 }
 
 func TestUnicodeFill(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	u := PyUnicode_FromString("aaa")
-	assert.True(t, PyUnicode_Check(u))
-	assert.True(t, PyUnicode_CheckExact(u))
+	u := cpy3.PyUnicode_FromString("aaa")
 	defer u.DecRef()
 
-	assert.Equal(t, 3, PyUnicode_Fill(u, 0, 3, 'c'))
-
-	assert.Equal(t, "ccc", PyUnicode_AsUTF8(u))
+	assert.True(t, cpy3.PyUnicode_Check(u))
+	assert.True(t, cpy3.PyUnicode_CheckExact(u))
+	assert.Equal(t, 3, cpy3.PyUnicode_Fill(u, 0, 3, 'c'))
+	assert.Equal(t, "ccc", cpy3.PyUnicode_AsUTF8(u))
 }
 
 func TestUnicodeCopyCharacters(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	u := PyUnicode_FromString("aaa")
-	assert.True(t, PyUnicode_Check(u))
-	assert.True(t, PyUnicode_CheckExact(u))
+	u := cpy3.PyUnicode_FromString("aaa")
 	defer u.DecRef()
 
-	b := PyBytes_FromString("bbb")
-	assert.NotNil(t, b)
+	assert.True(t, cpy3.PyUnicode_Check(u))
+	assert.True(t, cpy3.PyUnicode_CheckExact(u))
+
+	b := cpy3.PyBytes_FromString("bbb")
 	defer b.DecRef()
-	ub := PyUnicode_FromEncodedObject(b, "utf-8", "strict")
-	assert.NotNil(t, ub)
+
+	assert.NotNil(t, b)
+
+	ub := cpy3.PyUnicode_FromEncodedObject(b, "utf-8", "strict")
 	defer ub.DecRef()
 
-	assert.Equal(t, 3, PyUnicode_CopyCharacters(ub, u, 0, 0, 3))
-
-	assert.Equal(t, "aaa", PyUnicode_AsUTF8(ub))
+	assert.NotNil(t, ub)
+	assert.Equal(t, 3, cpy3.PyUnicode_CopyCharacters(ub, u, 0, 0, 3))
+	assert.Equal(t, "aaa", cpy3.PyUnicode_AsUTF8(ub))
 }
 
 func TestUnicodeSubstring(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	u := PyUnicode_FromString("aaa")
-	assert.True(t, PyUnicode_Check(u))
-	assert.True(t, PyUnicode_CheckExact(u))
+	u := cpy3.PyUnicode_FromString("aaa")
 	defer u.DecRef()
 
-	sub := PyUnicode_Substring(u, 0, 2)
-	assert.NotNil(t, sub)
-	sub.DecRef()
+	assert.True(t, cpy3.PyUnicode_Check(u))
+	assert.True(t, cpy3.PyUnicode_CheckExact(u))
 
-	assert.Equal(t, "aa", PyUnicode_AsUTF8(sub))
+	sub := cpy3.PyUnicode_Substring(u, 0, 2)
+	defer sub.DecRef()
+
+	assert.NotNil(t, sub)
+	assert.Equal(t, "aa", cpy3.PyUnicode_AsUTF8(sub))
 }

@@ -1,29 +1,25 @@
-/*
-Unless explicitly stated otherwise all files in this repository are licensed
-under the MIT License.
-This product includes software developed at Datadog (https://www.datadoghq.com/).
-Copyright 2018 Datadog, Inc.
-*/
-
-package python3
+package cpy3_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestComplex(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	real := 2.
-	imaginary := 5.
+	nReal := 2.
+	nImaginary := 5.
 
-	complex := PyComplex_FromDoubles(real, imaginary)
-	assert.True(t, PyComplex_Check(complex))
-	assert.True(t, PyComplex_CheckExact(complex))
-	defer complex.DecRef()
+	nComplex := cpy3.PyComplex_FromDoubles(nReal, nImaginary)
+	defer nComplex.DecRef()
 
-	assert.Equal(t, real, PyComplex_RealAsDouble(complex))
-	assert.Equal(t, imaginary, PyComplex_ImagAsDouble(complex))
+	assert.True(t, cpy3.PyComplex_Check(nComplex))
+	assert.True(t, cpy3.PyComplex_CheckExact(nComplex))
+
+	assert.Equal(t, nReal, cpy3.PyComplex_RealAsDouble(nComplex))
+	assert.Equal(t, nImaginary, cpy3.PyComplex_ImagAsDouble(nComplex))
 }

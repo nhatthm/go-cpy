@@ -1,47 +1,50 @@
-package python3
+package cpy3_test
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestRunFile(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	pyErr, err := PyRun_AnyFile("tests/test.py")
+	pyErr, err := cpy3.PyRun_AnyFile("resources/fixtures/test.py")
 	assert.Zero(t, pyErr)
 	assert.Nil(t, err)
 
-	stdout := PySys_GetObject("stdout")
+	stdout := cpy3.PySys_GetObject("stdout")
 
 	result := stdout.CallMethodArgs("getvalue")
 	defer result.DecRef()
 
-	assert.Equal(t, "hello world\n", PyUnicode_AsUTF8(result))
+	assert.Equal(t, "hello world\n", cpy3.PyUnicode_AsUTF8(result))
 }
 
 func TestRunString(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	pythonCode, err := ioutil.ReadFile("tests/test.py")
+	pythonCode, err := os.ReadFile("resources/fixtures/test.py")
 	assert.Nil(t, err)
 
-	assert.Zero(t, PyRun_SimpleString(string(pythonCode)))
+	assert.Zero(t, cpy3.PyRun_SimpleString(string(pythonCode)))
 
-	stdout := PySys_GetObject("stdout")
+	stdout := cpy3.PySys_GetObject("stdout")
 
 	result := stdout.CallMethodArgs("getvalue")
 	defer result.DecRef()
 
-	assert.Equal(t, "hello world\n", PyUnicode_AsUTF8(result))
+	assert.Equal(t, "hello world\n", cpy3.PyUnicode_AsUTF8(result))
 }
 
 func TestPyMain(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	pyErr, err := Py_Main([]string{"tests/test.py"})
+	pyErr, err := cpy3.Py_Main([]string{"resources/fixtures/test.py"})
+
 	assert.Zero(t, pyErr)
 	assert.Nil(t, err)
 }

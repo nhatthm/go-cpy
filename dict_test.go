@@ -1,93 +1,103 @@
-/*
-Unless explicitly stated otherwise all files in this repository are licensed
-under the MIT License.
-This product includes software developed at Datadog (https://www.datadoghq.com/).
-Copyright 2018 Datadog, Inc.
-*/
-
-package python3
+package cpy3_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestDict(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	dict := PyDict_New()
-	assert.True(t, PyDict_Check(dict))
-	assert.True(t, PyDict_CheckExact(dict))
+	dict := cpy3.PyDict_New()
 	defer dict.DecRef()
 
-	proxy := PyDictProxy_New(dict)
+	assert.True(t, cpy3.PyDict_Check(dict))
+	assert.True(t, cpy3.PyDict_CheckExact(dict))
+
+	proxy := cpy3.PyDictProxy_New(dict)
+	defer proxy.DecRef()
+
 	assert.NotNil(t, proxy)
-	proxy.DecRef()
 
 	key1 := "key1"
-	value1 := PyUnicode_FromString("value1")
-	assert.NotNil(t, value1)
+
+	value1 := cpy3.PyUnicode_FromString("value1")
 	defer value1.DecRef()
 
-	key2 := PyUnicode_FromString("key2")
-	assert.NotNil(t, key2)
+	assert.NotNil(t, value1)
+
+	key2 := cpy3.PyUnicode_FromString("key2")
 	defer key2.DecRef()
-	value2 := PyUnicode_FromString("value2")
-	assert.NotNil(t, value2)
+
+	assert.NotNil(t, key2)
+
+	value2 := cpy3.PyUnicode_FromString("value2")
 	defer value2.DecRef()
 
-	key3 := PyUnicode_FromString("key3")
-	assert.NotNil(t, key3)
+	assert.NotNil(t, value2)
+
+	key3 := cpy3.PyUnicode_FromString("key3")
 	defer key3.DecRef()
-	value3 := PyUnicode_FromString("value3")
-	assert.NotNil(t, value3)
+
+	assert.NotNil(t, key3)
+
+	value3 := cpy3.PyUnicode_FromString("value3")
 	defer value3.DecRef()
 
-	err := PyDict_SetItem(dict, key2, value2)
+	assert.NotNil(t, value3)
+
+	err := cpy3.PyDict_SetItem(dict, key2, value2)
 	assert.Zero(t, err)
 
-	err = PyDict_SetItemString(dict, key1, value1)
+	err = cpy3.PyDict_SetItemString(dict, key1, value1)
 	assert.Zero(t, err)
 
-	assert.Equal(t, value2, PyDict_GetItem(dict, key2))
-	assert.Equal(t, value2, PyDict_SetDefault(dict, key2, Py_None))
-	assert.Equal(t, value1, PyDict_GetItemString(dict, key1))
-	assert.Nil(t, PyDict_GetItemWithError(dict, key3))
-	b := PyDict_Contains(dict, key2) != 0
+	assert.Equal(t, value2, cpy3.PyDict_GetItem(dict, key2))
+	assert.Equal(t, value2, cpy3.PyDict_SetDefault(dict, key2, cpy3.Py_None))
+	assert.Equal(t, value1, cpy3.PyDict_GetItemString(dict, key1))
+	assert.Nil(t, cpy3.PyDict_GetItemWithError(dict, key3))
+
+	b := cpy3.PyDict_Contains(dict, key2) != 0
+
 	assert.True(t, b)
+	assert.Equal(t, 2, cpy3.PyDict_Size(dict))
 
-	assert.Equal(t, 2, PyDict_Size(dict))
+	keys := cpy3.PyDict_Keys(dict)
+	defer keys.DecRef()
 
-	keys := PyDict_Keys(dict)
-	assert.True(t, PyList_Check(keys))
-	keys.DecRef()
+	assert.True(t, cpy3.PyList_Check(keys))
 
-	values := PyDict_Values(dict)
-	assert.True(t, PyList_Check(values))
-	values.DecRef()
+	values := cpy3.PyDict_Values(dict)
+	defer values.DecRef()
 
-	items := PyDict_Items(dict)
-	assert.True(t, PyList_Check(items))
-	items.DecRef()
+	assert.True(t, cpy3.PyList_Check(values))
 
-	err = PyDict_SetItem(dict, key3, value3)
+	items := cpy3.PyDict_Items(dict)
+	defer items.DecRef()
+
+	assert.True(t, cpy3.PyList_Check(items))
+
+	err = cpy3.PyDict_SetItem(dict, key3, value3)
 	assert.Zero(t, err)
 
-	newDict := PyDict_Copy(dict)
-	assert.Equal(t, 3, PyDict_Size(newDict))
+	newDict := cpy3.PyDict_Copy(dict)
 	defer newDict.DecRef()
 
-	err = PyDict_DelItem(dict, key2)
+	assert.Equal(t, 3, cpy3.PyDict_Size(newDict))
+
+	err = cpy3.PyDict_DelItem(dict, key2)
+
 	assert.Zero(t, err)
 
-	err = PyDict_DelItemString(dict, key1)
+	err = cpy3.PyDict_DelItemString(dict, key1)
+
 	assert.Zero(t, err)
+	assert.Equal(t, 1, cpy3.PyDict_Size(dict))
 
-	assert.Equal(t, 1, PyDict_Size(dict))
+	cpy3.PyDict_Clear(dict)
 
-	PyDict_Clear(dict)
-	assert.Equal(t, 0, PyDict_Size(dict))
-
-	dict.DecRef()
+	assert.Equal(t, 0, cpy3.PyDict_Size(dict))
 }

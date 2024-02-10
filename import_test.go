@@ -1,270 +1,300 @@
-/*
-Unless explicitly stated otherwise all files in this repository are licensed
-under the MIT License.
-This product includes software developed at Datadog (https://www.datadoghq.com/).
-Copyright 2018 Datadog, Inc.
-*/
-
-package python3
+package cpy3_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"go.nhat.io/cpy3"
 )
 
 func TestImportModule(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	os := PyImport_ImportModule("os")
+	os := cpy3.PyImport_ImportModule("os")
+	defer os.DecRef()
+
 	assert.NotNil(t, os)
-	os.DecRef()
 }
 
 func TestImportModuleEx(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	queue := PyImport_ImportModuleEx("queue", nil, nil, nil)
+	queue := cpy3.PyImport_ImportModuleEx("queue", nil, nil, nil)
+	defer queue.DecRef()
+
 	assert.NotNil(t, queue)
-	queue.DecRef()
 }
 
 func TestImportModuleLevelObject(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	mathName := PyUnicode_FromString("math")
+	mathName := cpy3.PyUnicode_FromString("math")
 	defer mathName.DecRef()
 
-	math := PyImport_ImportModuleLevelObject(mathName, nil, nil, nil, 0)
+	math := cpy3.PyImport_ImportModuleLevelObject(mathName, nil, nil, nil, 0)
+	defer math.DecRef()
+
 	assert.NotNil(t, math)
-	math.DecRef()
 }
 
 func TestImportModuleLevel(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	sys := PyImport_ImportModuleLevel("sys", nil, nil, nil, 0)
+	sys := cpy3.PyImport_ImportModuleLevel("sys", nil, nil, nil, 0)
+	defer sys.DecRef()
+
 	assert.NotNil(t, sys)
-	sys.DecRef()
 }
 
 func TestImportImport(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	platformName := PyUnicode_FromString("platform")
+	platformName := cpy3.PyUnicode_FromString("platform")
 	defer platformName.DecRef()
 
-	platform := PyImport_Import(platformName)
+	platform := cpy3.PyImport_Import(platformName)
+	defer platform.DecRef()
+
 	assert.NotNil(t, platform)
-	platform.DecRef()
 }
 
 func TestReloadModule(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	os := PyImport_ImportModule("os")
-	assert.NotNil(t, os)
+	os := cpy3.PyImport_ImportModule("os")
 	defer os.DecRef()
 
-	newOs := PyImport_ReloadModule(os)
-	assert.NotNil(t, newOs)
+	assert.NotNil(t, os)
+
+	newOs := cpy3.PyImport_ReloadModule(os)
 	defer newOs.DecRef()
 
-	// PyImport_ReloadModule return a new reference, pointer should be the same
+	assert.NotNil(t, newOs)
+
+	// cpy3.PyImport_ReloadModule return a new reference, pointer should be the same.
 	assert.Equal(t, os, newOs)
 }
 
 func TestAddModuleObject(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	os := PyImport_ImportModule("os")
-	assert.NotNil(t, os)
+	os := cpy3.PyImport_ImportModule("os")
 	defer os.DecRef()
 
-	pyName := PyUnicode_FromString("os.new")
+	assert.NotNil(t, os)
+
+	pyName := cpy3.PyUnicode_FromString("os.new")
 	defer pyName.DecRef()
 
-	new := PyImport_AddModuleObject(pyName)
+	new := cpy3.PyImport_AddModuleObject(pyName)
+
 	assert.NotNil(t, new)
 }
 
 func TestAddModule(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	os := PyImport_ImportModule("os")
-	assert.NotNil(t, os)
+	os := cpy3.PyImport_ImportModule("os")
 	defer os.DecRef()
 
-	new := PyImport_AddModule("os.new")
+	assert.NotNil(t, os)
+
+	new := cpy3.PyImport_AddModule("os.new")
 	assert.NotNil(t, new)
 }
 
 func TestExecCodeModule(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	// fake module
-	source := PyUnicode_FromString("__version__ = '2.0'")
+	// Fake module.
+	source := cpy3.PyUnicode_FromString("__version__ = '2.0'")
 	defer source.DecRef()
-	filename := PyUnicode_FromString("test_module.py")
+
+	filename := cpy3.PyUnicode_FromString("test_module.py")
 	defer filename.DecRef()
-	mode := PyUnicode_FromString("exec")
+
+	mode := cpy3.PyUnicode_FromString("exec")
 	defer mode.DecRef()
 
-	// perform module load
-	builtins := PyEval_GetBuiltins()
-	assert.True(t, PyDict_Check(builtins))
+	// Perform module load.
+	builtins := cpy3.PyEval_GetBuiltins()
 
-	compile := PyDict_GetItemString(builtins, "compile")
-	assert.True(t, PyCallable_Check(compile))
+	assert.True(t, cpy3.PyDict_Check(builtins))
+
+	compile := cpy3.PyDict_GetItemString(builtins, "compile")
+
+	assert.True(t, cpy3.PyCallable_Check(compile))
 
 	code := compile.CallFunctionObjArgs(source, filename, mode)
-	assert.NotNil(t, code)
 	defer code.DecRef()
 
-	module := PyImport_ExecCodeModule("test_module", code)
+	assert.NotNil(t, code)
+
+	module := cpy3.PyImport_ExecCodeModule("test_module", code)
+
 	assert.NotNil(t, module)
 
-	testModuleStr := PyUnicode_FromString("test_module")
+	testModuleStr := cpy3.PyUnicode_FromString("test_module")
 	defer testModuleStr.DecRef()
 
-	pyModule := PyImport_GetModule(testModuleStr)
+	pyModule := cpy3.PyImport_GetModule(testModuleStr)
 	defer pyModule.DecRef()
 
 	assert.NotNil(t, pyModule)
 }
 
 func TestExecCodeModuleEx(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	// fake module
-	source := PyUnicode_FromString("__version__ = '2.0'")
+	// Fake module.
+	source := cpy3.PyUnicode_FromString("__version__ = '2.0'")
 	defer source.DecRef()
-	filename := PyUnicode_FromString("test_module.py")
+
+	filename := cpy3.PyUnicode_FromString("test_module.py")
 	defer filename.DecRef()
-	mode := PyUnicode_FromString("exec")
+
+	mode := cpy3.PyUnicode_FromString("exec")
 	defer mode.DecRef()
 
-	// perform module load
-	builtins := PyEval_GetBuiltins()
-	assert.True(t, PyDict_Check(builtins))
+	// Perform module load.
+	builtins := cpy3.PyEval_GetBuiltins()
 
-	compile := PyDict_GetItemString(builtins, "compile")
-	assert.True(t, PyCallable_Check(compile))
+	assert.True(t, cpy3.PyDict_Check(builtins))
+
+	compile := cpy3.PyDict_GetItemString(builtins, "compile")
+
+	assert.True(t, cpy3.PyCallable_Check(compile))
 
 	code := compile.CallFunctionObjArgs(source, filename, mode)
-	assert.NotNil(t, code)
 	defer code.DecRef()
 
-	module := PyImport_ExecCodeModuleEx("test_module", code, "test_module.py")
-	assert.NotNil(t, module)
+	assert.NotNil(t, code)
 
+	module := cpy3.PyImport_ExecCodeModuleEx("test_module", code, "test_module.py")
+
+	assert.NotNil(t, module)
 }
 
 func TestExecCodeModuleWithPathnames(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	// fake module
-	source := PyUnicode_FromString("__version__ = '2.0'")
+	// Fake module.
+	source := cpy3.PyUnicode_FromString("__version__ = '2.0'")
 	defer source.DecRef()
-	filename := PyUnicode_FromString("test_module.py")
+
+	filename := cpy3.PyUnicode_FromString("test_module.py")
 	defer filename.DecRef()
-	mode := PyUnicode_FromString("exec")
+
+	mode := cpy3.PyUnicode_FromString("exec")
 	defer mode.DecRef()
 
-	// perform module load
-	builtins := PyEval_GetBuiltins()
-	assert.True(t, PyDict_Check(builtins))
+	// Perform module load.
+	builtins := cpy3.PyEval_GetBuiltins()
 
-	compile := PyDict_GetItemString(builtins, "compile")
-	assert.True(t, PyCallable_Check(compile))
+	assert.True(t, cpy3.PyDict_Check(builtins))
+
+	compile := cpy3.PyDict_GetItemString(builtins, "compile")
+
+	assert.True(t, cpy3.PyCallable_Check(compile))
 
 	code := compile.CallFunctionObjArgs(source, filename, mode)
-	assert.NotNil(t, code)
 	defer code.DecRef()
 
-	module := PyImport_ExecCodeModuleWithPathnames("test_module", code, "test_module.py", "test_module.py")
-	assert.NotNil(t, module)
+	assert.NotNil(t, code)
 
+	module := cpy3.PyImport_ExecCodeModuleWithPathnames("test_module", code, "test_module.py", "test_module.py")
+
+	assert.NotNil(t, module)
 }
 
 func TestExecCodeModuleObject(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	// fake module
-	source := PyUnicode_FromString("__version__ = '2.0'")
+	// Fake module.
+	source := cpy3.PyUnicode_FromString("__version__ = '2.0'")
 	defer source.DecRef()
-	filename := PyUnicode_FromString("test_module.py")
+
+	filename := cpy3.PyUnicode_FromString("test_module.py")
 	defer filename.DecRef()
-	mode := PyUnicode_FromString("exec")
+
+	mode := cpy3.PyUnicode_FromString("exec")
 	defer mode.DecRef()
 
-	// perform module load
-	builtins := PyEval_GetBuiltins()
-	assert.True(t, PyDict_Check(builtins))
+	// Perform module load.
+	builtins := cpy3.PyEval_GetBuiltins()
 
-	compile := PyDict_GetItemString(builtins, "compile")
-	assert.True(t, PyCallable_Check(compile))
+	assert.True(t, cpy3.PyDict_Check(builtins))
+
+	compile := cpy3.PyDict_GetItemString(builtins, "compile")
+
+	assert.True(t, cpy3.PyCallable_Check(compile))
 
 	code := compile.CallFunctionObjArgs(source, filename, mode)
-	assert.NotNil(t, code)
 	defer code.DecRef()
 
-	moduleName := PyUnicode_FromString("test_module")
+	assert.NotNil(t, code)
+
+	moduleName := cpy3.PyUnicode_FromString("test_module")
 	defer moduleName.DecRef()
 
-	module := PyImport_ExecCodeModuleObject(moduleName, code, filename, filename)
-	assert.NotNil(t, module)
+	module := cpy3.PyImport_ExecCodeModuleObject(moduleName, code, filename, filename)
 
+	assert.NotNil(t, module)
 }
 
 func TestGetMagicNumber(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	magicNumber := PyImport_GetMagicNumber()
+	magicNumber := cpy3.PyImport_GetMagicNumber()
+
 	assert.NotNil(t, magicNumber)
 }
 
 func TestGetMagicTag(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	magicTag := PyImport_GetMagicTag()
+	magicTag := cpy3.PyImport_GetMagicTag()
+
 	assert.NotNil(t, magicTag)
 }
 
 func TestGetModuleDict(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	moduleDict := PyImport_GetModuleDict()
+	moduleDict := cpy3.PyImport_GetModuleDict()
+
 	defer moduleDict.DecRef()
 
-	assert.True(t, PyDict_Check(moduleDict))
-
+	assert.True(t, cpy3.PyDict_Check(moduleDict))
 }
 
 func TestGetModule(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	os := PyImport_ImportModule("os")
-	assert.NotNil(t, os)
+	os := cpy3.PyImport_ImportModule("os")
 	defer os.DecRef()
 
-	name := PyUnicode_FromString("os")
+	assert.NotNil(t, os)
+
+	name := cpy3.PyUnicode_FromString("os")
 	defer name.DecRef()
 
-	new := PyImport_GetModule(name)
+	new := cpy3.PyImport_GetModule(name)
+
 	assert.Equal(t, new, os)
 }
 
 func TestGetImporter(t *testing.T) {
-	Py_Initialize()
+	cpy3.Py_Initialize()
 
-	paths := PySys_GetObject("path")
-	path := PyList_GetItem(paths, 0)
+	paths := cpy3.PySys_GetObject("path")
+	path := cpy3.PyList_GetItem(paths, 0)
 
 	assert.NotNil(t, path)
-	importer := PyImport_GetImporter(path)
+
+	importer := cpy3.PyImport_GetImporter(path)
 	defer importer.DecRef()
 
 	assert.NotNil(t, importer)
-
 }
