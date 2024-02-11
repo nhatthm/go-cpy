@@ -8,6 +8,7 @@ package cpy3
 #include "variadic.h"
 */
 import "C"
+
 import (
 	"unsafe"
 )
@@ -108,7 +109,7 @@ func (pyObject *PyObject) GetAttrString(attr_name string) *PyObject {
 // SetAttr sets the value of the attribute named attr_name, for object o, to the value v. Raise an exception and return
 // -1 on failure; return 0 on success. This is the equivalent of the Python statement o.attr_name = v.
 //
-// If v is NULL, the attribute is deleted. This behaviour is deprecated in favour of using PyObject_DelAttr(), but there
+// If v is NULL, the attribute is deleted. This behavior is deprecated in favor of using PyObject_DelAttr(), but there
 // are currently no plans to remove it.
 //
 // Reference: https://docs.python.org/3/c-api/object.html#c.PyObject_SetAttr
@@ -119,7 +120,7 @@ func (pyObject *PyObject) SetAttr(attr_name *PyObject, v *PyObject) int {
 // SetAttrString is the same as PyObject.SetAttr(), but attr_name is specified as a const char* UTF-8 encoded bytes
 // string, rather than a PyObject*.
 //
-// If v is NULL, the attribute is deleted, but this feature is deprecated in favour of using PyObject.DelAttrString().
+// If v is NULL, the attribute is deleted, but this feature is deprecated in favor of using PyObject.DelAttrString().
 //
 // Reference: https://docs.python.org/3/c-api/object.html#c.PyObject_SetAttrString
 func (pyObject *PyObject) SetAttrString(attr_name string, v *PyObject) int {
@@ -215,7 +216,19 @@ func (pyObject *PyObject) IsSubclass(cls *PyObject) int {
 	return int(C.PyObject_IsSubclass(toc(pyObject), toc(cls)))
 }
 
-// IsInstance
+// IsInstance returns 1 if inst is an instance of the class cls or a subclass of cls, or 0 if not. On error, returns -1
+// and sets an exception.
+//
+// If cls is a tuple, the check will be done against every entry in cls. The result will be 1 when at least one of the
+// checks returns 1, otherwise it will be 0.
+//
+// If cls has a __instancecheck__() method, it will be called to determine the subclass status as described in PEP 3119.
+// Otherwise, inst is an instance of cls if its class is a subclass of cls.
+//
+// An instance inst can override what is considered its class by having a __class__ attribute.
+//
+// An object cls can override if it is considered a class, and what its base classes are, by having a __bases__
+// attribute (which must be a tuple of base classes).
 //
 // Reference: https://docs.python.org/3/c-api/object.html#c.PyObject_IsInstance
 func (pyObject *PyObject) IsInstance(cls *PyObject) int {
@@ -343,9 +356,10 @@ func (pyObject *PyObject) HashNotImplemented() int {
 }
 
 // IsTrue returns 1 if the object o is considered to be true, and 0 otherwise. This is equivalent to the Python
-// expression not not o. On failure, return -1.
+// expression `not not o`. On failure, return -1.
 //
 // Reference: https://docs.python.org/3/c-api/object.html#c.PyObject_IsTrue
+// nolint: dupword
 func (pyObject *PyObject) IsTrue() int {
 	return int(C.PyObject_IsTrue(toc(pyObject)))
 }

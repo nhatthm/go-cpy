@@ -5,6 +5,7 @@ package cpy3
 #include "macro.h"
 */
 import "C"
+
 import (
 	"unsafe"
 )
@@ -85,7 +86,6 @@ func PyUnicode_GetLength(unicode *PyObject) int {
 // Reference: https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_CopyCharacters
 func PyUnicode_CopyCharacters(to, from *PyObject, to_start, from_start, how_many int) int {
 	return int(C.PyUnicode_CopyCharacters(toc(to), C.Py_ssize_t(to_start), toc(from), C.Py_ssize_t(from_start), C.Py_ssize_t(how_many)))
-
 }
 
 // PyUnicode_Fill fills a string with a character: write fill_char into unicode[start:start+length].
@@ -126,7 +126,7 @@ func PyUnicode_Substring(unicode *PyObject, start, end int) *PyObject {
 	return togo(C.PyUnicode_Substring(toc(unicode), C.Py_ssize_t(start), C.Py_ssize_t(end)))
 }
 
-// PyUnicode_AsUTF8
+// PyUnicode_AsUTF8 is the same as PyUnicode_AsUTF8AndSize(), but does not store the size.
 //
 // Reference: https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_AsUTF8
 func PyUnicode_AsUTF8(unicode *PyObject) string {

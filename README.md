@@ -9,8 +9,8 @@ and know what to type in your ``go`` program.
 
 ## Prerequisites
 
-- 'go >= 1.21'
-- `python = 3.11`
+- `go >= 1.21`
+- `python = 3.11.x`
 
 ### MacOS
   - `brew install python@3.11`
@@ -47,6 +47,13 @@ the CPython `PyRun_AnyFile` function and error will be set if we failed to open 
 If an error is raise before calling th CPython function `int` default to `-1`.
 
 Take a look at some [examples](examples) and this [tutorial blogpost](https://poweruser.blog/embedding-python-in-go-338c0399f3d5).
+
+## Versioning
+
+We follow the versioning of the CPython API. The version of this package is `3.11.x` which means it supports the CPython
+API version `3.11`. However, the patch version `x` is used to indicate the version of this package, not the CPython API.
+If you see a version `3.11.7`, it doesn't mean the module only supports CPython API version `3.11.7`, it's just the 7th
+time we patch to support the CPython API version `3.11`.
 
 ## Contributing
 

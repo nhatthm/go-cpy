@@ -178,7 +178,6 @@ func PyImport_GetModuleDict() *PyObject {
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_GetModule
 func PyImport_GetModule(name *PyObject) *PyObject {
 	return togo(C.PyImport_GetModule(toc(name)))
-
 }
 
 // PyImport_GetImporter returns a finder object for a sys.path/pkg.__path__ item path, possibly by fetching it from the
@@ -189,7 +188,6 @@ func PyImport_GetModule(name *PyObject) *PyObject {
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_GetImporter
 func PyImport_GetImporter(path *PyObject) *PyObject {
 	return togo(C.PyImport_GetImporter(toc(path)))
-
 }
 
 // PyImport_ImportFrozenModuleObject loads a frozen module named name. Return 1 for success, 0 if the module is not
@@ -199,7 +197,6 @@ func PyImport_GetImporter(path *PyObject) *PyObject {
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_ImportFrozenModuleObject
 func PyImport_ImportFrozenModuleObject(name *PyObject) int {
 	return int(C.PyImport_ImportFrozenModuleObject(toc(name)))
-
 }
 
 // PyImport_ImportFrozenModule is similar to PyImport_ImportFrozenModuleObject(), but the name is a UTF-8 encoded string
@@ -211,5 +208,4 @@ func PyImport_ImportFrozenModule(name string) int {
 	defer C.free(unsafe.Pointer(cname))
 
 	return int(C.PyImport_ImportFrozenModule(cname))
-
 }

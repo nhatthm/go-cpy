@@ -15,9 +15,9 @@ func TestReflectionBuiltins(t *testing.T) {
 
 	assert.NotNil(t, builtins)
 
-	len := cpy3.PyDict_GetItemString(builtins, "len")
+	builtinsLength := cpy3.PyDict_GetItemString(builtins, "len")
 
-	assert.True(t, cpy3.PyCallable_Check(len))
+	assert.True(t, cpy3.PyCallable_Check(builtinsLength))
 }
 
 func TestReflectionLocals(t *testing.T) {
@@ -43,11 +43,12 @@ func TestReflectionFuncName(t *testing.T) {
 
 	assert.NotNil(t, builtins)
 
-	len := cpy3.PyDict_GetItemString(builtins, "len")
+	builtinsLength := cpy3.PyDict_GetItemString(builtins, "len")
 
-	assert.True(t, cpy3.PyCallable_Check(len))
-	assert.Equal(t, "len", cpy3.PyEval_GetFuncName(len))
+	assert.True(t, cpy3.PyCallable_Check(builtinsLength))
+	assert.Equal(t, "len", cpy3.PyEval_GetFuncName(builtinsLength))
 }
+
 func TestReflectionFuncDesc(t *testing.T) {
 	cpy3.Py_Initialize()
 
@@ -55,8 +56,8 @@ func TestReflectionFuncDesc(t *testing.T) {
 
 	assert.NotNil(t, builtins)
 
-	len := cpy3.PyDict_GetItemString(builtins, "len")
+	builtinsLength := cpy3.PyDict_GetItemString(builtins, "len")
 
-	assert.True(t, cpy3.PyCallable_Check(len))
-	assert.Equal(t, "()", cpy3.PyEval_GetFuncDesc(len))
+	assert.True(t, cpy3.PyCallable_Check(builtinsLength))
+	assert.Equal(t, "()", cpy3.PyEval_GetFuncDesc(builtinsLength))
 }

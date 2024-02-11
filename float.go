@@ -36,7 +36,7 @@ func PyFloat_FromDouble(v float64) *PyObject {
 	return togo(C.PyFloat_FromDouble(C.double(v)))
 }
 
-// PyFloat_FromString
+// PyFloat_FromString creates a PyFloatObject object based on the string value in str, or NULL on failure.
 //
 // Reference: https://docs.python.org/3/c-api/float.html#c.PyFloat_FromString
 func PyFloat_FromString(str *PyObject) *PyObject {

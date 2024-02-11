@@ -4,10 +4,14 @@ package cpy3
 #include "Python.h"
 */
 import "C"
+
 import (
 	"fmt"
 	"unsafe"
 )
+
+// ErrEncodeLocaleFailed is returned when we fail to call Py_EncodeLocale.
+var ErrEncodeLocaleFailed = fmt.Errorf("fail to call Py_EncodeLocale")
 
 // Py_Initialize initializes the Python interpreter. In an application embedding Python, this should be called before
 // using any other Python/C API functions; see Before Python Initialization for the few exceptions.
@@ -70,7 +74,7 @@ func Py_GetProgramName() (string, error) {
 	cname := C.Py_EncodeLocale(wcname, nil)
 
 	if cname == nil {
-		return "", fmt.Errorf("fail to call Py_EncodeLocale")
+		return "", ErrEncodeLocaleFailed
 	}
 
 	defer C.PyMem_Free(unsafe.Pointer(cname))
@@ -96,7 +100,7 @@ func Py_GetPrefix() (string, error) {
 
 	cname := C.Py_EncodeLocale(wcname, nil)
 	if cname == nil {
-		return "", fmt.Errorf("fail to call Py_EncodeLocale")
+		return "", ErrEncodeLocaleFailed
 	}
 
 	defer C.PyMem_Free(unsafe.Pointer(cname))
@@ -104,7 +108,12 @@ func Py_GetPrefix() (string, error) {
 	return C.GoString(cname), nil
 }
 
-// Py_GetExecPrefix
+// Py_GetExecPrefix returns the exec-prefix for installed platform-dependent files. This is derived through a number of
+// complicated rules from the program name set with Py_SetProgramName() and some environment variables; for example,
+// if the program name is '/usr/local/bin/python', the exec-prefix is '/usr/local'. The returned string points into
+// static storage; the caller should not modify its value. This corresponds to the exec_prefix variable in the top-level
+// Makefile and the --exec-prefix argument to the configure script at build time. The value is available to Python code
+// as sys.exec_prefix. It is only useful on Unix.
 //
 // Reference: https://docs.python.org/3/c-api/init.html#c.Py_GetExecPrefix
 func Py_GetExecPrefix() (string, error) {
@@ -115,7 +124,7 @@ func Py_GetExecPrefix() (string, error) {
 
 	cname := C.Py_EncodeLocale(wcname, nil)
 	if cname == nil {
-		return "", fmt.Errorf("fail to call Py_EncodeLocale")
+		return "", ErrEncodeLocaleFailed
 	}
 
 	defer C.PyMem_Free(unsafe.Pointer(cname))
@@ -123,7 +132,10 @@ func Py_GetExecPrefix() (string, error) {
 	return C.GoString(cname), nil
 }
 
-// Py_GetProgramFullPath
+// Py_GetProgramFullPath returns the full program name of the Python executable; this is computed as a side effect of
+// deriving the default module search path from the program name (set by Py_SetProgramName() above). The returned string
+// points into static storage; the caller should not modify its value. The value is available to Python code as
+// `sys.executable`.
 //
 // Reference: https://docs.python.org/3/c-api/init.html#c.Py_GetProgramFullPath
 func Py_GetProgramFullPath() (string, error) {
@@ -134,7 +146,7 @@ func Py_GetProgramFullPath() (string, error) {
 
 	cname := C.Py_EncodeLocale(wcname, nil)
 	if cname == nil {
-		return "", fmt.Errorf("fail to call Py_EncodeLocale")
+		return "", ErrEncodeLocaleFailed
 	}
 
 	defer C.PyMem_Free(unsafe.Pointer(cname))
@@ -142,7 +154,12 @@ func Py_GetProgramFullPath() (string, error) {
 	return C.GoString(cname), nil
 }
 
-// Py_GetPath
+// Py_GetPath returns the default module search path; this is computed from the program name (set by Py_SetProgramName()
+// above) and some environment variables. The returned string consists of a series of directory names separated by a
+// platform dependent delimiter character. The delimiter character is ':' on Unix and macOS, ';' on Windows. The
+// returned string points into static storage; the caller should not modify its value. The list `sys.path` is
+// initialized with this value on interpreter startup; it can be (and usually is) modified later to change the search
+// path for loading modules.
 //
 // Reference: https://docs.python.org/3/c-api/init.html#c.Py_GetPath
 func Py_GetPath() (string, error) {
@@ -153,7 +170,7 @@ func Py_GetPath() (string, error) {
 
 	cname := C.Py_EncodeLocale(wcname, nil)
 	if cname == nil {
-		return "", fmt.Errorf("fail to call Py_EncodeLocale")
+		return "", ErrEncodeLocaleFailed
 	}
 
 	defer C.PyMem_Free(unsafe.Pointer(cname))
@@ -161,7 +178,9 @@ func Py_GetPath() (string, error) {
 	return C.GoString(cname), nil
 }
 
-// Py_GetVersion
+// Py_GetVersion returns the version of this Python interpreter. This is a string that looks something like:
+//
+// "3.0a5+ (py3k:63103M, May 12 2008, 00:53:55) \n[GCC 4.2.3]"
 //
 // Reference: https://docs.python.org/3/c-api/init.html#c.Py_GetVersion
 func Py_GetVersion() string {
@@ -170,7 +189,11 @@ func Py_GetVersion() string {
 	return C.GoString(cversion)
 }
 
-// Py_GetPlatform
+// Py_GetPlatform returns the platform identifier for the current platform. On Unix, this is formed from the "official"
+// name of the operating system, converted to lower case, followed by the major revision number; e.g., for Solaris 2.x,
+// which is also known as SunOS 5.x, the value is 'sunos5'. On macOS, it is 'darwin'. On Windows, it is 'win'. The
+// returned string points into static storage; the caller should not modify its value. The value is available to Python
+// code as `sys.platform`.
 //
 // Reference: https://docs.python.org/3/c-api/init.html#c.Py_GetPlatform
 func Py_GetPlatform() string {
@@ -179,16 +202,22 @@ func Py_GetPlatform() string {
 	return C.GoString(cplatform)
 }
 
-// Py_GetCopyright
+// Py_GetCopyright returns the official copyright string for the current Python version, for example:
+//
+// "Copyright 1991-1995 Stichting Mathematisch Centrum, Amsterdam"
 //
 // Reference: https://docs.python.org/3/c-api/init.html#c.Py_GetCopyright
+// nolint: misspell
 func Py_GetCopyright() string {
 	ccopyright := C.Py_GetCopyright()
 
 	return C.GoString(ccopyright)
 }
 
-// Py_GetCompiler
+// Py_GetCompiler returns an indication of the compiler used to build the current Python version, in square brackets,
+// for example:
+//
+// "[GCC 2.7.2.2]"
 //
 // Reference: https://docs.python.org/3/c-api/init.html#c.Py_GetCompiler
 func Py_GetCompiler() string {
@@ -197,7 +226,10 @@ func Py_GetCompiler() string {
 	return C.GoString(ccompiler)
 }
 
-// Py_GetBuildInfo
+// Py_GetBuildInfo returns information about the sequence number and build date and time of the current Python
+// interpreter instance, for example:
+//
+// "#67, Aug  1 1997, 22:34:28"
 //
 // Reference: https://docs.python.org/3/c-api/init.html#c.Py_GetBuildInfo
 func Py_GetBuildInfo() string {
@@ -206,7 +238,8 @@ func Py_GetBuildInfo() string {
 	return C.GoString(cbuildInfo)
 }
 
-// Py_GetPythonHome
+// Py_GetPythonHome returns the default "home", that is, the value set by a previous call to Py_SetPythonHome(), or the
+// value of the `PYTHONHOME` environment variable if it is set.
 //
 // Reference: https://docs.python.org/3/c-api/init.html#c.Py_GetPythonHome
 func Py_GetPythonHome() (string, error) {
@@ -217,7 +250,7 @@ func Py_GetPythonHome() (string, error) {
 
 	chome := C.Py_EncodeLocale(wchome, nil)
 	if chome == nil {
-		return "", fmt.Errorf("fail to call Py_EncodeLocale")
+		return "", ErrEncodeLocaleFailed
 	}
 
 	defer C.PyMem_Free(unsafe.Pointer(chome))

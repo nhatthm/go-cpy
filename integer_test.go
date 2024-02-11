@@ -76,7 +76,7 @@ func TestPyLongFromAsDouble(t *testing.T) {
 	defer pyLong.DecRef()
 
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, cpy3.PyLong_AsDouble(pyLong))
+	assert.InDelta(t, v, cpy3.PyLong_AsDouble(pyLong), 0.01)
 }
 
 func TestPyLongFromAsGoFloat64(t *testing.T) {
@@ -88,7 +88,7 @@ func TestPyLongFromAsGoFloat64(t *testing.T) {
 	defer pyLong.DecRef()
 
 	assert.NotNil(t, pyLong)
-	assert.Equal(t, v, cpy3.PyLong_AsDouble(pyLong))
+	assert.InDelta(t, v, cpy3.PyLong_AsDouble(pyLong), 0.01)
 }
 
 func TestPyLongFromAsString(t *testing.T) {

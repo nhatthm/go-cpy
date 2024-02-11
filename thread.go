@@ -64,7 +64,7 @@ func PyOS_AfterFork_Child() {
 // before the Release(). For example, normal usage of the Py_BEGIN_ALLOW_THREADS and Py_END_ALLOW_THREADS macros is
 // acceptable.
 //
-// The return value is an opaque “handle” to the thread state when PyGILState_Ensure() was called, and must be passed to
+// The return value is an opaque "handle" to the thread state when PyGILState_Ensure() was called, and must be passed to
 // PyGILState_Release() to ensure Python is left in the same state. Even though recursive calls are allowed, these
 // handles cannot be shared - each unique call to PyGILState_Ensure() must save the handle for its call to
 // PyGILState_Release().

@@ -85,7 +85,8 @@ func PyBytes_AsString(o *PyObject) string {
 // Reference: https://docs.python.org/3/c-api/bytes.html#c.PyBytes_Concat
 func PyBytes_Concat(bytes, newpart *PyObject) *PyObject {
 	cbytes := toc(bytes)
-	C.PyBytes_Concat(&cbytes, toc(newpart))
+
+	C.PyBytes_Concat(&cbytes, toc(newpart)) //nolint: gocritic
 
 	return togo(cbytes)
 }
@@ -96,7 +97,8 @@ func PyBytes_Concat(bytes, newpart *PyObject) *PyObject {
 // Reference: https://docs.python.org/3/c-api/bytes.html#c.PyBytes_ConcatAndDel
 func PyBytes_ConcatAndDel(bytes, newpart *PyObject) *PyObject {
 	cbytes := toc(bytes)
-	C.PyBytes_ConcatAndDel(&cbytes, toc(newpart))
+
+	C.PyBytes_ConcatAndDel(&cbytes, toc(newpart)) //nolint: gocritic
 
 	return togo(cbytes)
 }

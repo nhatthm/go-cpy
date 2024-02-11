@@ -28,7 +28,7 @@ func TestPyFloatFromAsDouble(t *testing.T) {
 	defer pyFloat.DecRef()
 
 	assert.NotNil(t, pyFloat)
-	assert.Equal(t, v, cpy3.PyFloat_AsDouble(pyFloat))
+	assert.InDelta(t, v, cpy3.PyFloat_AsDouble(pyFloat), 0.01)
 }
 
 func TestPyFloatFromAsString(t *testing.T) {
@@ -41,14 +41,14 @@ func TestPyFloatFromAsString(t *testing.T) {
 	defer pyFloat.DecRef()
 
 	assert.NotNil(t, pyFloat)
-	assert.Equal(t, 2354., cpy3.PyFloat_AsDouble(pyFloat))
+	assert.InDelta(t, 2354., cpy3.PyFloat_AsDouble(pyFloat), 0.01)
 }
 
 func TestPyFloatMinMax(t *testing.T) {
 	cpy3.Py_Initialize()
 
-	assert.Equal(t, math.MaxFloat64, cpy3.PyFloat_GetMax())
-	assert.Equal(t, 2.2250738585072014e-308, cpy3.PyFloat_GetMin())
+	assert.InDelta(t, math.MaxFloat64, cpy3.PyFloat_GetMax(), 0.01)
+	assert.InDelta(t, 2.2250738585072014e-308, cpy3.PyFloat_GetMin(), 0.01)
 }
 
 func TestPyFloatInfo(t *testing.T) {

@@ -1,44 +1,69 @@
 name: Test
 
+env:
+  GO111MODULE: "on"
+
 on:
-  pull_request:
-    branches:
-      - master
   push:
     branches:
       - master
+  pull_request:
 
 jobs:
-  test:
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      go-latest-version: ${{ steps.find-go-version.outputs.go-latest-version }}
+      go-supported-versions: ${{ steps.find-go-version.outputs.go-supported-versions }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: nhatthm/gh-actions/checkout@master
 
-      - uses: actions/setup-go@v5
-        with:
-          go-version: '1.21.x'
+      - id: find-go-version
+        name: Find Go version
+        uses: nhatthm/gh-actions/find-go-version@master
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version: ${{ fromJson(needs.setup.outputs.go-supported-versions) }}
+    runs-on: ubuntu-latest
+    needs: [setup]
+    env:
+      GO_LATEST_VERSION: ${{ needs.setup.outputs.go-latest-version }}
+    steps:
+      - name: Checkout code
+        uses: nhatthm/gh-actions/checkout@master
 
-      - id: go-cache-paths
+      - name: Setup Environment
         run: |
-          echo "go-build=$(go env GOCACHE)" >> "$GITHUB_OUTPUT"
-          echo "go-mod=$(go env GOMODCACHE)" >> "$GITHUB_OUTPUT"
+          make "$GITHUB_ENV"
 
-      - name: Go Build Cache
-        uses: actions/cache@v4
+      - name: Install Go
+        uses: nhatthm/gh-actions/setup-go@master
         with:
-          path: ${{ steps.go-cache-paths.outputs.go-build }}
-          key: ${{ runner.os }}-go-build-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-go-build-
+          go-version: ${{ matrix.go-version }}
 
-      - name: Go Mod Cache
-        uses: actions/cache@v4
+      - name: Install Python
+        uses: nhatthm/gh-actions/setup-python@master
         with:
-          path: ${{ steps.go-cache-paths.outputs.go-mod }}
-          key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.sum') }}
-          restore-keys: ${{ runner.os }}-go-mod-
+          python-version: ${{ env.PYTHON_VERSION }}
 
-      - run: go test ./... -cover
+      - name: Test
+        run: |
+          make test
+
+      - name: Upload code coverage (unit)
+        if: matrix.go-version == env.GO_LATEST_VERSION
+        uses: nhatthm/gh-actions/codecov@master
+        with:
+          files: ./unit.coverprofile
+          flags: unittests-${{ runner.os }}
+
+      #- name: Upload code coverage (features)
+      #  if: matrix.go-version == env.GO_LATEST_VERSION
+      #  uses: nhatthm/gh-actions/codecov@master
+      #  with:
+      #    file: ./features.coverprofile
+      #    flags: featurestests-${{ runner.os }}

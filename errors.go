@@ -53,7 +53,6 @@ func PyErr_SetString(pyType *PyObject, message string) {
 	defer C.free(unsafe.Pointer(cmessage))
 
 	C.PyErr_SetString(toc(pyType), cmessage)
-
 }
 
 // PyErr_SetObject is similar to PyErr_SetString() but lets you specify an arbitrary Python object for the "value" of
@@ -133,7 +132,6 @@ func PyErr_SyntaxLocation(filename string, lineno int) {
 	defer C.free(unsafe.Pointer(cfilename))
 
 	C.PyErr_SyntaxLocation(cfilename, C.int(lineno))
-
 }
 
 // PyErr_BadInternalCall is a shorthand for PyErr_SetString(PyExc_SystemError, message), where message indicates that
@@ -183,7 +181,7 @@ func PyErr_ExceptionMatches(exc *PyObject) bool {
 func PyErr_Fetch() (*PyObject, *PyObject, *PyObject) {
 	var pyType, value, traceback *C.PyObject
 
-	C.PyErr_Fetch(&pyType, &value, &traceback)
+	C.PyErr_Fetch(&pyType, &value, &traceback) //nolint: gocritic
 
 	return togo(pyType), togo(value), togo(traceback)
 }
@@ -210,7 +208,7 @@ func PyErr_NormalizeException(exc, val, tb *PyObject) (*PyObject, *PyObject, *Py
 	cval := toc(val)
 	ctb := toc(tb)
 
-	C.PyErr_NormalizeException(&cexc, &cval, &ctb)
+	C.PyErr_NormalizeException(&cexc, &cval, &ctb) //nolint: gocritic
 
 	return togo(cexc), togo(cval), togo(ctb)
 }
@@ -224,7 +222,7 @@ func PyErr_NormalizeException(exc, val, tb *PyObject) (*PyObject, *PyObject, *Py
 func PyErr_GetExcInfo() (*PyObject, *PyObject, *PyObject) {
 	var pyType, value, traceback *C.PyObject
 
-	C.PyErr_GetExcInfo(&pyType, &value, &traceback)
+	C.PyErr_GetExcInfo(&pyType, &value, &traceback) //nolint: gocritic
 
 	return togo(pyType), togo(value), togo(traceback)
 }

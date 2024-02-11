@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"go.nhat.io/cpy3"
 )
@@ -29,21 +30,21 @@ func TestInitializationEx(t *testing.T) {
 func TestPrefix(t *testing.T) {
 	prefix, err := cpy3.Py_GetPrefix()
 
-	assert.Nil(t, err)
+	require.NoError(t, err)
 	assert.IsType(t, "", prefix)
 }
 
 func TestExecPrefix(t *testing.T) {
 	execPrefix, err := cpy3.Py_GetExecPrefix()
 
-	assert.Nil(t, err)
+	require.NoError(t, err)
 	assert.IsType(t, "", execPrefix)
 }
 
 func TestProgramFullPath(t *testing.T) {
 	programFullPath, err := cpy3.Py_GetProgramFullPath()
 
-	assert.Nil(t, err)
+	require.NoError(t, err)
 	assert.IsType(t, "", programFullPath)
 }
 
