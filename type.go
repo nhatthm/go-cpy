@@ -27,13 +27,3 @@ func PyType_Check(o *PyObject) bool {
 func PyType_CheckExact(o *PyObject) bool {
 	return C._go_PyType_CheckExact(toc(o)) != 0
 }
-
-// func PyType_GetName(o *PyObject) string {
-// 	r := togo(C._go_PyType_GetName(toc(o.Type())))
-// 	defer r.DecRef()
-//
-// 	str := r.Str()
-// 	defer str.DecRef()
-//
-// 	return PyUnicode_AsUTF8(str)
-// }
