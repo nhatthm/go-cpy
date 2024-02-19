@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"os"
 
-	"go.nhat.io/cpy3"
+	"go.nhat.io/cpy/v3"
 )
 
 var (
 	output     = flag.String("o", "variadic.c", "output file")
-	caseNumber = flag.Int("n", cpy3.MaxVariadicLength, "number of case in the switch statement")
+	caseNumber = flag.Int("n", cpy.MaxVariadicLength, "number of case in the switch statement")
 )
 
 func main() {

@@ -16,6 +16,10 @@ int _go_PyType_CheckExact(PyObject *o) {
     return PyType_CheckExact(o);
 }
 
+int _go_PyType_GetName(PyTypeObject *t) {
+    return PyType_GetName(t);
+}
+
 int _go_PyLong_Check(PyObject *p) {
     return PyLong_Check(p);
 }

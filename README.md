@@ -28,7 +28,7 @@ By default `pkg-config` will look at the `python3` library so if you want to cho
 ## Install
 
 ```shell
-go get go.nhat.io/cpy3
+go get go.nhat.io/cpy/v3
 ```
 
 ## API
@@ -65,7 +65,7 @@ Contributions are welcome! See [details](CONTRIBUTING.md).
 
 This project is a community maintained successor to [`DataDog/go-python3`](https://github.com/DataDog/go-python3), which will get archived in December 2021.
 
-If you use the Go package `github.com/DataDog/go-python3` in your code, you can use `go.nhat.io/cpy3` as a drop-in replacement. We intend to not introduce breaking changes.
+If you use the Go package `github.com/DataDog/go-python3` in your code, you can use `go.nhat.io/cpy/v3` as a drop-in replacement. We intend to not introduce breaking changes.
 
 ### Relation to `sbinet/go-python`
 

@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"os"
 
-	"go.nhat.io/cpy3"
+	"go.nhat.io/cpy/v3"
 )
 
 func main() {
-	cpy3.Py_Initialize()
+	cpy.Py_Initialize()
 
-	if !cpy3.Py_IsInitialized() {
+	if !cpy.Py_IsInitialized() {
 		fmt.Println("Error initializing the python interpreter")
 		os.Exit(1)
 	}
@@ -20,13 +20,13 @@ func main() {
 		fmt.Printf("failed to print the python list: %s\n", err)
 	}
 
-	cpy3.Py_Finalize()
+	cpy.Py_Finalize()
 }
 
 func printList() error {
-	list := cpy3.PyList_New(5)
+	list := cpy.PyList_New(5)
 
-	if exc := cpy3.PyErr_Occurred(); list == nil && exc != nil {
+	if exc := cpy.PyErr_Occurred(); list == nil && exc != nil {
 		return fmt.Errorf("fail to create python list object") //nolint: goerr113
 	}
 
@@ -43,18 +43,18 @@ func printList() error {
 	return nil
 }
 
-func pythonRepr(o *cpy3.PyObject) (string, error) {
+func pythonRepr(o *cpy.PyObject) (string, error) {
 	if o == nil {
 		return "", fmt.Errorf("object is nil") //nolint: goerr113
 	}
 
 	s := o.Repr()
 	if s == nil {
-		cpy3.PyErr_Clear()
+		cpy.PyErr_Clear()
 		return "", fmt.Errorf("failed to call Repr object method") //nolint: goerr113
 	}
 
 	defer s.DecRef()
 
-	return cpy3.PyUnicode_AsUTF8(s), nil
+	return cpy.PyUnicode_AsUTF8(s), nil
 }

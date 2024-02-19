@@ -1,4 +1,4 @@
-package cpy3
+package cpy
 
 /*
 #cgo pkg-config: python-3.11-embed

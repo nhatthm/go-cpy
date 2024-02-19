@@ -1,4 +1,4 @@
-package cpy3
+package cpy
 
 //go:generate go run resources/scripts/variadic.go
 

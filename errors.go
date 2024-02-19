@@ -1,4 +1,4 @@
-package cpy3
+package cpy
 
 /*
 #include "Python.h"

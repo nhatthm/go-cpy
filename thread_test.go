@@ -1,43 +1,43 @@
-package cpy3_test
+package cpy_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
-	"go.nhat.io/cpy3"
+	"go.nhat.io/cpy/v3"
 )
 
 func TestGIL(t *testing.T) {
-	cpy3.Py_Initialize()
+	cpy.Py_Initialize()
 
-	gil := cpy3.PyGILState_Ensure()
+	gil := cpy.PyGILState_Ensure()
 
-	assert.True(t, cpy3.PyGILState_Check())
+	assert.True(t, cpy.PyGILState_Check())
 
-	cpy3.PyGILState_Release(gil)
+	cpy.PyGILState_Release(gil)
 }
 
 func TestThreadState(t *testing.T) {
-	cpy3.Py_Initialize()
+	cpy.Py_Initialize()
 
-	threadState := cpy3.PyGILState_GetThisThreadState()
+	threadState := cpy.PyGILState_GetThisThreadState()
 
-	threadState2 := cpy3.PyThreadState_Get()
+	threadState2 := cpy.PyThreadState_Get()
 
 	assert.Equal(t, threadState, threadState2)
 
-	threadState3 := cpy3.PyThreadState_Swap(threadState)
+	threadState3 := cpy.PyThreadState_Swap(threadState)
 
 	assert.Equal(t, threadState, threadState3)
 }
 
 func TestThreadSaveRestore(t *testing.T) {
-	cpy3.Py_Initialize()
+	cpy.Py_Initialize()
 
-	threadState := cpy3.PyEval_SaveThread()
+	threadState := cpy.PyEval_SaveThread()
 
-	assert.False(t, cpy3.PyGILState_Check())
+	assert.False(t, cpy.PyGILState_Check())
 
-	cpy3.PyEval_RestoreThread(threadState)
+	cpy.PyEval_RestoreThread(threadState)
 }

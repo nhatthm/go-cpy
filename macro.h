@@ -8,6 +8,7 @@ void _go_Py_LeaveRecursiveCall();
 
 int _go_PyType_Check(PyObject *o);
 int _go_PyType_CheckExact(PyObject *o);
+int _go_PyType_GetName(PyTypeObject *t);
 
 int _go_PyLong_Check(PyObject *p);
 int _go_PyLong_CheckExact(PyObject *p);

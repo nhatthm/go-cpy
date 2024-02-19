@@ -1,4 +1,4 @@
-MODULE_NAME=cpy3
+MODULE_NAME=cpy
 
 VENDOR_DIR = vendor
 
@@ -15,7 +15,7 @@ $(VENDOR_DIR):
 	@$(GO) mod tidy
 
 .PHONY: lint
-lint:
+lint: $(GOLANGCI_LINT)
 	@$(GOLANGCI_LINT) run
 
 .PHONY: test

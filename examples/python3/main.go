@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"go.nhat.io/cpy3"
+	"go.nhat.io/cpy/v3"
 )
 
 func main() {
-	i, err := cpy3.Py_Main(os.Args)
+	i, err := cpy.Py_Main(os.Args)
 	if err != nil {
 		fmt.Printf("error launching the python interpreter: %s\n", err)
 		os.Exit(1)
