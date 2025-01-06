@@ -53,7 +53,7 @@ func renderTemplate(n int, functionName string, pyArgs ...string) string {
 
 		args := ""
 		for _, arg := range pyArgs {
-			args += fmt.Sprintf("%s, ", arg)
+			args += arg + ", "
 		}
 
 		for j := 0; j < i; j++ {

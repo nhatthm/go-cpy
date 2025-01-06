@@ -35,6 +35,7 @@ func PyBytes_CheckExact(o *PyObject) bool {
 // Reference: https://docs.python.org/3/c-api/bytes.html#c.PyBytes_FromString
 func PyBytes_FromString(str string) *PyObject {
 	cstr := C.CString(str)
+
 	defer C.free(unsafe.Pointer(cstr))
 
 	return togo(C.PyBytes_FromString(cstr))
@@ -46,6 +47,7 @@ func PyBytes_FromString(str string) *PyObject {
 // Reference: https://docs.python.org/3/c-api/bytes.html#c.PyBytes_FromStringAndSize
 func PyBytes_FromStringAndSize(str string) *PyObject {
 	cstr := C.CString(str)
+
 	defer C.free(unsafe.Pointer(cstr))
 
 	return togo(C.PyBytes_FromStringAndSize(cstr, C.Py_ssize_t(len(str))))
@@ -103,9 +105,10 @@ func PyBytes_ConcatAndDel(bytes, newpart *PyObject) *PyObject {
 	return togo(cbytes)
 }
 
-// PyBytes_FromByteSlice uses https://docs.python.org/3/c-api/bytes.html#c.PyBytes_FromStringAndSize but with []byte
+// PyBytes_FromByteSlice uses https://docs.python.org/3/c-api/bytes.html#c.PyBytes_FromStringAndSize but with []byte.
 func PyBytes_FromByteSlice(bytes []byte) *PyObject {
 	pbytes := C.CBytes(bytes)
+
 	defer C.free(pbytes)
 
 	cstr := (*C.char)(pbytes)

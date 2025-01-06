@@ -15,6 +15,7 @@ import (
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_ImportModule
 func PyImport_ImportModule(name string) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	return togo(C.PyImport_ImportModule(cname))
@@ -52,6 +53,7 @@ func PyImport_ImportModuleLevelObject(name, globals, locals, fromlist *PyObject,
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_ImportModuleLevel
 func PyImport_ImportModuleLevel(name string, globals, locals, fromlist *PyObject, level int) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	return togo(C.PyImport_ImportModuleLevel(cname, toc(globals), toc(locals), toc(fromlist), C.int(level)))
@@ -89,6 +91,7 @@ func PyImport_AddModuleObject(name *PyObject) *PyObject {
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_AddModule
 func PyImport_AddModule(name string) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	return togo(C.PyImport_AddModule(cname))
@@ -104,6 +107,7 @@ func PyImport_AddModule(name string) *PyObject {
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_ExecCodeModule
 func PyImport_ExecCodeModule(name string, co *PyObject) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	return togo(C.PyImport_ExecCodeModule(cname, toc(co)))
@@ -115,9 +119,11 @@ func PyImport_ExecCodeModule(name string, co *PyObject) *PyObject {
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_ExecCodeModuleEx
 func PyImport_ExecCodeModuleEx(name string, co *PyObject, pathname string) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	cpathname := C.CString(pathname)
+
 	defer C.free(unsafe.Pointer(cpathname))
 
 	return togo(C.PyImport_ExecCodeModuleEx(cname, toc(co), cpathname))
@@ -138,12 +144,15 @@ func PyImport_ExecCodeModuleObject(name, co, pathname, cpathname *PyObject) *PyO
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_ExecCodeModuleWithPathnames
 func PyImport_ExecCodeModuleWithPathnames(name string, co *PyObject, pathname string, cpathname string) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	cspathname := C.CString(pathname)
+
 	defer C.free(unsafe.Pointer(cspathname))
 
 	ccpathname := C.CString(cpathname)
+
 	defer C.free(unsafe.Pointer(ccpathname))
 
 	return togo(C.PyImport_ExecCodeModuleWithPathnames(cname, toc(co), cspathname, ccpathname))
@@ -205,6 +214,7 @@ func PyImport_ImportFrozenModuleObject(name *PyObject) int {
 // Reference: https://docs.python.org/3/c-api/import.html#c.PyImport_ImportFrozenModule
 func PyImport_ImportFrozenModule(name string) int {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	return int(C.PyImport_ImportFrozenModule(cname))

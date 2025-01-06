@@ -11,7 +11,7 @@ import "C"
 type PyThreadState C.PyThreadState
 
 // PyGILState is an opaque "handle" to the thread state when PyGILState_Ensure() was called, and must be passed to
-// PyGILState_Release() to ensure Python is left in the same state
+// PyGILState_Release() to ensure Python is left in the same state.
 type PyGILState C.PyGILState_STATE
 
 // PyEval_SaveThread releases the global interpreter lock (if it has been created) and reset the thread state to NULL,

@@ -6,12 +6,12 @@ package cpy
 import "C"
 
 import (
-	"fmt"
+	"errors"
 	"unsafe"
 )
 
 // ErrEncodeLocaleFailed is returned when we fail to call Py_EncodeLocale.
-var ErrEncodeLocaleFailed = fmt.Errorf("fail to call Py_EncodeLocale")
+var ErrEncodeLocaleFailed = errors.New("fail to call Py_EncodeLocale")
 
 // Py_Initialize initializes the Python interpreter. In an application embedding Python, this should be called before
 // using any other Python/C API functions; see Before Python Initialization for the few exceptions.

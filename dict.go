@@ -80,6 +80,7 @@ func PyDict_SetItem(p, key, val *PyObject) int {
 // Reference: https://docs.python.org/3/c-api/dict.html#c.PyDict_SetItemString
 func PyDict_SetItemString(p *PyObject, key string, val *PyObject) int {
 	ckey := C.CString(key)
+
 	defer C.free(unsafe.Pointer(ckey))
 
 	return int(C.PyDict_SetItemString(toc(p), ckey, toc(val)))
@@ -99,6 +100,7 @@ func PyDict_DelItem(p, key *PyObject) int {
 // Reference: https://docs.python.org/3/c-api/dict.html#c.PyDict_DelItemString
 func PyDict_DelItemString(p *PyObject, key string) int {
 	ckey := C.CString(key)
+
 	defer C.free(unsafe.Pointer(ckey))
 
 	return int(C.PyDict_DelItemString(toc(p), ckey))
@@ -126,6 +128,7 @@ func PyDict_GetItemWithError(p, key *PyObject) *PyObject {
 // Reference: https://docs.python.org/3/c-api/dict.html#c.PyDict_GetItemString
 func PyDict_GetItemString(p *PyObject, key string) *PyObject {
 	ckey := C.CString(key)
+
 	defer C.free(unsafe.Pointer(ckey))
 
 	return togo(C.PyDict_GetItemString(toc(p), ckey))

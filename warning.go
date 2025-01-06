@@ -33,6 +33,7 @@ var (
 // Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_WarnEx
 func PyErr_WarnEx(category *PyObject, message string, stack_level int) int {
 	cmessage := C.CString(message)
+
 	defer C.free(unsafe.Pointer(cmessage))
 
 	return int(C.PyErr_WarnEx(toc(category), cmessage, C.Py_ssize_t(stack_level)))
@@ -53,12 +54,15 @@ func PyErr_WarnExplicitObject(category *PyObject, message *PyObject, filename *P
 // Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_WarnExplicit
 func PyErr_WarnExplicit(category *PyObject, message string, filename string, lineno int, module string, registry *PyObject) int {
 	cmessage := C.CString(message)
+
 	defer C.free(unsafe.Pointer(cmessage))
 
 	cfilename := C.CString(filename)
+
 	defer C.free(unsafe.Pointer(cfilename))
 
 	cmodule := C.CString(module)
+
 	defer C.free(unsafe.Pointer(cmodule))
 
 	return int(C.PyErr_WarnExplicit(toc(category), cmessage, cfilename, C.int(lineno), cmodule, toc(registry)))

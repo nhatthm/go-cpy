@@ -78,6 +78,7 @@ func PyLong_FromDouble(v float64) *PyObject {
 // Reference: https://docs.python.org/3/c-api/long.html#c.PyLong_FromString
 func PyLong_FromString(str string, base int) *PyObject {
 	cstr := C.CString(str)
+
 	defer C.free(unsafe.Pointer(cstr))
 
 	return togo(C.PyLong_FromString(cstr, nil, C.int(base)))
