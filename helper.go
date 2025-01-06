@@ -5,7 +5,7 @@ package cpy
 // #include "Python.h"
 import "C"
 
-// togo converts a *C.PyObject to a *PyObject
+// togo converts a *C.PyObject to a *PyObject.
 func togo(cobject *C.PyObject) *PyObject {
 	return (*PyObject)(cobject)
 }

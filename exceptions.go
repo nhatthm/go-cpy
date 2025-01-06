@@ -75,6 +75,7 @@ var (
 // Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_NewException
 func PyErr_NewException(name string, base, dict *PyObject) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	return togo(C.PyErr_NewException(cname, toc(base), toc(dict)))
@@ -86,9 +87,11 @@ func PyErr_NewException(name string, base, dict *PyObject) *PyObject {
 // Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_NewExceptionWithDoc
 func PyErr_NewExceptionWithDoc(name, doc string, base, dict *PyObject) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	cdoc := C.CString(doc)
+
 	defer C.free(unsafe.Pointer(cdoc))
 
 	return togo(C.PyErr_NewExceptionWithDoc(cname, cdoc, toc(base), toc(dict)))

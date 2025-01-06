@@ -50,6 +50,7 @@ func PyErr_WriteUnraisable(obj *PyObject) {
 // Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_SetString
 func PyErr_SetString(pyType *PyObject, message string) {
 	cmessage := C.CString(message)
+
 	defer C.free(unsafe.Pointer(cmessage))
 
 	C.PyErr_SetString(toc(pyType), cmessage)
@@ -119,6 +120,7 @@ func PyErr_SyntaxLocationObject(filename *PyObject, lineno, col_offset int) {
 // Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_SyntaxLocationEx
 func PyErr_SyntaxLocationEx(filename string, lineno, col_offset int) {
 	cfilename := C.CString(filename)
+
 	defer C.free(unsafe.Pointer(cfilename))
 
 	C.PyErr_SyntaxLocationEx(cfilename, C.int(lineno), C.int(col_offset))
@@ -129,6 +131,7 @@ func PyErr_SyntaxLocationEx(filename string, lineno, col_offset int) {
 // Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_SyntaxLocation
 func PyErr_SyntaxLocation(filename string, lineno int) {
 	cfilename := C.CString(filename)
+
 	defer C.free(unsafe.Pointer(cfilename))
 
 	C.PyErr_SyntaxLocation(cfilename, C.int(lineno))

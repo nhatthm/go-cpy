@@ -42,6 +42,7 @@ func PyModule_NewObject(name *PyObject) *PyObject {
 // Reference: https://docs.python.org/3/c-api/module.html#c.PyModule_New
 func PyModule_New(name string) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	return togo(C.PyModule_New(cname))

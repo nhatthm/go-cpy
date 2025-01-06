@@ -24,6 +24,7 @@ import (
 // Reference: https://docs.python.org/3/c-api/exceptions.html#c.Py_EnterRecursiveCall
 func Py_EnterRecursiveCall(where string) int {
 	cwhere := C.CString(where)
+
 	defer C.free(unsafe.Pointer(cwhere))
 
 	return int(C._go_Py_EnterRecursiveCall(cwhere))

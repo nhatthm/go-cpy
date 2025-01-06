@@ -292,7 +292,7 @@ func TestReprEnterLeave(t *testing.T) {
 	defer s.DecRef()
 
 	assert.Zero(t, s.ReprEnter())
-	assert.Greater(t, s.ReprEnter(), 0)
+	assert.Positive(t, s.ReprEnter())
 
 	s.ReprLeave()
 	s.ReprLeave()

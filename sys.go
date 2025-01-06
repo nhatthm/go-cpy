@@ -14,6 +14,7 @@ import (
 // Reference: https://docs.python.org/3/c-api/sys.html#c.PySys_GetObject
 func PySys_GetObject(name string) *PyObject {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	return togo(C.PySys_GetObject(cname))
@@ -25,6 +26,7 @@ func PySys_GetObject(name string) *PyObject {
 // Reference: https://docs.python.org/3/c-api/sys.html#c.PySys_SetObject
 func PySys_SetObject(name string, v *PyObject) int {
 	cname := C.CString(name)
+
 	defer C.free(unsafe.Pointer(cname))
 
 	return int(C.PySys_SetObject(cname, toc(v)))

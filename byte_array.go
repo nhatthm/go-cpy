@@ -42,6 +42,7 @@ func PyByteArray_FromObject(o *PyObject) *PyObject {
 // Reference: https://docs.python.org/3/c-api/bytearray.html#c.PyByteArray_FromStringAndSize
 func PyByteArray_FromStringAndSize(str string) *PyObject {
 	cstr := C.CString(str)
+
 	defer C.free(unsafe.Pointer(cstr))
 
 	return togo(C.PyByteArray_FromStringAndSize(cstr, C.Py_ssize_t(len(str))))

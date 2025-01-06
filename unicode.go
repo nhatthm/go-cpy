@@ -46,6 +46,7 @@ func PyUnicode_New(size int, maxchar rune) *PyObject {
 // Reference: https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_FromString
 func PyUnicode_FromString(u string) *PyObject {
 	cu := C.CString(u)
+
 	defer C.free(unsafe.Pointer(cu))
 
 	return togo(C.PyUnicode_FromString(cu))
@@ -64,9 +65,11 @@ func PyUnicode_FromString(u string) *PyObject {
 // Reference: https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_FromEncodedObject
 func PyUnicode_FromEncodedObject(obj *PyObject, encoding, errors string) *PyObject {
 	cencoding := C.CString(encoding)
+
 	defer C.free(unsafe.Pointer(cencoding))
 
 	cerrors := C.CString(errors)
+
 	defer C.free(unsafe.Pointer(cerrors))
 
 	return togo(C.PyUnicode_FromEncodedObject(toc(obj), cencoding, cerrors))
