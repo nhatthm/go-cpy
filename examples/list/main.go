@@ -9,7 +9,6 @@ import (
 
 func main() {
 	cpy.Py_Initialize()
-	defer cpy.Py_FinalizeEx()
 
 	if !cpy.Py_IsInitialized() {
 		fmt.Println("Error initializing the python interpreter")
