@@ -33,7 +33,6 @@ func printList() error {
 	defer list.DecRef()
 
 	repr, err := pythonRepr(list)
-
 	if err != nil {
 		return fmt.Errorf("fail to get representation of object list") //nolint: err113
 	}
