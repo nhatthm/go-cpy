@@ -20,6 +20,8 @@ linters:
     - nolintlint
     - nonamedreturns
     - paralleltest
+    - perfsprint
+    - staticcheck
     - tagalign
     - tagliatelle
     - testpackage
