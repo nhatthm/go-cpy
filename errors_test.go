@@ -185,39 +185,17 @@ func TestErrorGivenExceptionMatches(t *testing.T) {
 	assert.True(t, cpy.PyErr_GivenExceptionMatches(cpy.PyExc_BufferError, cpy.PyExc_BufferError))
 }
 
-func TestErrorFetchRestore(t *testing.T) {
+func TestErrorRaisedException(t *testing.T) {
 	cpy.Py_Initialize()
 
 	cpy.PyErr_SetNone(cpy.PyExc_BufferError)
 
-	exc, value, traceback := cpy.PyErr_Fetch()
+	exc := cpy.PyErr_GetRaisedException()
 	assert.Nil(t, cpy.PyErr_Occurred())
 
 	assert.True(t, cpy.PyErr_GivenExceptionMatches(exc, cpy.PyExc_BufferError))
-	assert.Nil(t, value)
-	assert.Nil(t, traceback)
 
-	cpy.PyErr_Restore(exc, value, traceback)
-
-	assert.NotNil(t, cpy.PyErr_Occurred())
-	cpy.PyErr_Clear()
-	assert.Nil(t, cpy.PyErr_Occurred())
-}
-
-func TestErrorNormalizeExceptionRestore(t *testing.T) {
-	cpy.Py_Initialize()
-
-	cpy.PyErr_SetNone(cpy.PyExc_BufferError)
-
-	exc, value, traceback := cpy.PyErr_Fetch()
-	exc, value, traceback = cpy.PyErr_NormalizeException(exc, value, traceback)
-	assert.Nil(t, cpy.PyErr_Occurred())
-
-	assert.True(t, cpy.PyErr_GivenExceptionMatches(exc, cpy.PyExc_BufferError))
-	assert.Equal(t, 1, value.IsInstance(exc))
-	assert.Nil(t, traceback)
-
-	cpy.PyErr_Restore(exc, value, traceback)
+	cpy.PyErr_SetRaisedException(cpy.PyExc_UnicodeError)
 
 	assert.NotNil(t, cpy.PyErr_Occurred())
 	cpy.PyErr_Clear()

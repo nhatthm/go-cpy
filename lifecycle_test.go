@@ -28,6 +28,8 @@ func TestInitializationEx(t *testing.T) {
 }
 
 func TestPrefix(t *testing.T) {
+	cpy.Py_Initialize()
+
 	prefix, err := cpy.Py_GetPrefix()
 
 	require.NoError(t, err)
@@ -35,6 +37,8 @@ func TestPrefix(t *testing.T) {
 }
 
 func TestExecPrefix(t *testing.T) {
+	cpy.Py_Initialize()
+
 	execPrefix, err := cpy.Py_GetExecPrefix()
 
 	require.NoError(t, err)
@@ -42,6 +46,8 @@ func TestExecPrefix(t *testing.T) {
 }
 
 func TestProgramFullPath(t *testing.T) {
+	cpy.Py_Initialize()
+
 	programFullPath, err := cpy.Py_GetProgramFullPath()
 
 	require.NoError(t, err)

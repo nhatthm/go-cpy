@@ -176,44 +176,23 @@ func PyErr_ExceptionMatches(exc *PyObject) bool {
 	return ret == 1
 }
 
-// PyErr_Fetch retrieves the error indicator into three variables whose addresses are passed. If the error indicator is
-// not set, set all three variables to NULL. If it is set, it will be cleared and you own a reference to each object
-// retrieved. The value and traceback object may be NULL even when the type object is not.
+// PyErr_GetRaisedException Return the exception currently being raised, clearing the error indicator at the same time.
+// Return NULL if the error indicator is not set.
 //
-// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_Fetch
-func PyErr_Fetch() (*PyObject, *PyObject, *PyObject) {
-	var pyType, value, traceback *C.PyObject
-
-	C.PyErr_Fetch(&pyType, &value, &traceback) //nolint: gocritic
-
-	return togo(pyType), togo(value), togo(traceback)
+// This function is used by code that needs to catch exceptions, or code that needs to save and restore the error
+// indicator temporarily.
+//
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_GetRaisedException
+func PyErr_GetRaisedException() *PyObject {
+	return togo(C.PyErr_GetRaisedException())
 }
 
-// PyErr_Restore sets the error indicator from the three objects, type, value, and traceback, clearing the existing
-// exception if one is set. If the objects are NULL, the error indicator is cleared. Do not pass a NULL type and
-// non-NULL value or traceback. The exception type should be a class. Do not pass an invalid exception type or value.
-// (Violating these rules will cause subtle problems later.) This call takes away a reference to each object: you must
-// own a reference to each object before the call and after the call you no longer own these references.
-// (If you don't understand this, don't use this function. I warned you.)
+// PyErr_SetRaisedException Set exc as the exception currently being raised, clearing the existing exception if one is
+// set.
 //
-// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_Restore
-func PyErr_Restore(pyType *PyObject, value *PyObject, traceback *PyObject) {
-	C.PyErr_Restore(toc(pyType), toc(value), toc(traceback))
-}
-
-// PyErr_NormalizeException is used to instantiate the class in that the values returned by PyErr_Fetch() below can be
-// "unnormalized", meaning that *exc is a class object but *val is not an instance of the same class. If the values are
-// already normalized, nothing happens. The delayed normalization is implemented to improve performance.
-//
-// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_NormalizeException
-func PyErr_NormalizeException(exc, val, tb *PyObject) (*PyObject, *PyObject, *PyObject) {
-	cexc := toc(exc)
-	cval := toc(val)
-	ctb := toc(tb)
-
-	C.PyErr_NormalizeException(&cexc, &cval, &ctb) //nolint: gocritic
-
-	return togo(cexc), togo(cval), togo(ctb)
+// Reference: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_SetRaisedException
+func PyErr_SetRaisedException(exec *PyObject) {
+	C.PyErr_SetRaisedException(toc(exec))
 }
 
 // PyErr_GetExcInfo retrieves the old-style representation of the exception info, as known from sys.exc_info(). This
