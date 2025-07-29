@@ -20,7 +20,7 @@ func main() {
 		fmt.Printf("failed to print the python list: %s\n", err)
 	}
 
-	cpy.Py_Finalize()
+	cpy.Py_FinalizeEx()
 }
 
 func printList() error {
