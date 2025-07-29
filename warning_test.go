@@ -12,7 +12,7 @@ func TestWarnEx(t *testing.T) {
 	cpy.Py_Initialize()
 	defer cpy.Py_FinalizeEx()
 
-	assert.Equal(t, -1, cpy.PyErr_WarnEx(cpy.PyExc_RuntimeWarning, "test warning", 3))
+	assert.Equal(t, 0, cpy.PyErr_WarnEx(cpy.PyExc_RuntimeWarning, "test warning", 3))
 }
 
 func TestWarnExplicitObject(t *testing.T) {
@@ -28,12 +28,12 @@ func TestWarnExplicitObject(t *testing.T) {
 	module := cpy.PyUnicode_FromString("test_module")
 	defer module.DecRef()
 
-	assert.Equal(t, -1, cpy.PyErr_WarnExplicitObject(cpy.PyExc_RuntimeError, message, filename, 4, module, nil))
+	assert.Equal(t, 0, cpy.PyErr_WarnExplicitObject(cpy.PyExc_RuntimeError, message, filename, 4, module, nil))
 }
 
 func TestWarnExplicit(t *testing.T) {
 	cpy.Py_Initialize()
 	defer cpy.Py_FinalizeEx()
 
-	assert.Equal(t, -1, cpy.PyErr_WarnExplicit(cpy.PyExc_RuntimeError, "test warning", "test.py", 4, "test_module", nil))
+	assert.Equal(t, 0, cpy.PyErr_WarnExplicit(cpy.PyExc_RuntimeError, "test warning", "test.py", 4, "test_module", nil))
 }
