@@ -39,7 +39,7 @@ func Py_Main(args []string) (int, error) {
 
 		warg := C.Py_DecodeLocale(carg, nil)
 		if warg == nil {
-			return -1, fmt.Errorf("fail to call Py_DecodeLocale on '%s'", arg) //nolint: goerr113
+			return -1, fmt.Errorf("fail to call Py_DecodeLocale on '%s'", arg) //nolint: err113
 		}
 
 		// Py_DecodeLocale requires a call to PyMem_RawFree to free the memory
@@ -68,7 +68,7 @@ func PyRun_AnyFile(filename string) (int, error) {
 
 	cfile, err := C.fopen(cfilename, mode)
 	if err != nil {
-		return -1, fmt.Errorf("fail to open '%s': %s", filename, err) //nolint: goerr113,errorlint
+		return -1, fmt.Errorf("fail to open '%s': %s", filename, err) //nolint: err113,errorlint
 	}
 
 	defer C.fclose(cfile)
