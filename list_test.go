@@ -10,6 +10,7 @@ import (
 
 func TestList(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	list := cpy.PyList_New(0)
 	defer list.DecRef()

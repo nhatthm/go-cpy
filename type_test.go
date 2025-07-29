@@ -10,6 +10,7 @@ import (
 
 func TestTypeCheck(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	assert.True(t, cpy.PyType_Check(cpy.Type))
 	assert.True(t, cpy.PyType_CheckExact(cpy.Type))
@@ -17,6 +18,7 @@ func TestTypeCheck(t *testing.T) {
 
 func TestTypeGetName(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	py := cpy.PyLong_FromGoInt64(42).Type()
 	str := py.GetAttrString("__name__").Str()

@@ -10,6 +10,7 @@ import (
 
 func TestImportModule(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	os := cpy.PyImport_ImportModule("os")
 	defer os.DecRef()
@@ -19,6 +20,7 @@ func TestImportModule(t *testing.T) {
 
 func TestImportModuleEx(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	queue := cpy.PyImport_ImportModuleEx("queue", nil, nil, nil)
 	defer queue.DecRef()
@@ -28,6 +30,7 @@ func TestImportModuleEx(t *testing.T) {
 
 func TestImportModuleLevelObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	mathName := cpy.PyUnicode_FromString("math")
 	defer mathName.DecRef()
@@ -40,6 +43,7 @@ func TestImportModuleLevelObject(t *testing.T) {
 
 func TestImportModuleLevel(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	sys := cpy.PyImport_ImportModuleLevel("sys", nil, nil, nil, 0)
 	defer sys.DecRef()
@@ -49,6 +53,7 @@ func TestImportModuleLevel(t *testing.T) {
 
 func TestImportImport(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	platformName := cpy.PyUnicode_FromString("platform")
 	defer platformName.DecRef()
@@ -61,6 +66,7 @@ func TestImportImport(t *testing.T) {
 
 func TestReloadModule(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	os := cpy.PyImport_ImportModule("os")
 	defer os.DecRef()
@@ -78,6 +84,7 @@ func TestReloadModule(t *testing.T) {
 
 func TestAddModuleObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	os := cpy.PyImport_ImportModule("os")
 	defer os.DecRef()
@@ -94,6 +101,7 @@ func TestAddModuleObject(t *testing.T) {
 
 func TestAddModule(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	os := cpy.PyImport_ImportModule("os")
 	defer os.DecRef()
@@ -107,6 +115,7 @@ func TestAddModule(t *testing.T) {
 
 func TestExecCodeModule(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	// Fake module.
 	source := cpy.PyUnicode_FromString("__version__ = '2.0'")
@@ -147,6 +156,7 @@ func TestExecCodeModule(t *testing.T) {
 
 func TestExecCodeModuleEx(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	// Fake module.
 	source := cpy.PyUnicode_FromString("__version__ = '2.0'")
@@ -179,6 +189,7 @@ func TestExecCodeModuleEx(t *testing.T) {
 
 func TestExecCodeModuleWithPathnames(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	// Fake module.
 	source := cpy.PyUnicode_FromString("__version__ = '2.0'")
@@ -211,6 +222,7 @@ func TestExecCodeModuleWithPathnames(t *testing.T) {
 
 func TestExecCodeModuleObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	// Fake module.
 	source := cpy.PyUnicode_FromString("__version__ = '2.0'")
@@ -246,6 +258,7 @@ func TestExecCodeModuleObject(t *testing.T) {
 
 func TestGetMagicNumber(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	magicNumber := cpy.PyImport_GetMagicNumber()
 
@@ -254,6 +267,7 @@ func TestGetMagicNumber(t *testing.T) {
 
 func TestGetMagicTag(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	magicTag := cpy.PyImport_GetMagicTag()
 
@@ -262,6 +276,7 @@ func TestGetMagicTag(t *testing.T) {
 
 func TestGetModuleDict(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	moduleDict := cpy.PyImport_GetModuleDict()
 
@@ -272,6 +287,7 @@ func TestGetModuleDict(t *testing.T) {
 
 func TestGetModule(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	os := cpy.PyImport_ImportModule("os")
 	defer os.DecRef()
@@ -288,6 +304,7 @@ func TestGetModule(t *testing.T) {
 
 func TestGetImporter(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	paths := cpy.PySys_GetObject("path")
 	path := cpy.PyList_GetItem(paths, 0)

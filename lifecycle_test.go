@@ -14,13 +14,14 @@ func TestInitialization(t *testing.T) {
 
 	assert.True(t, cpy.Py_IsInitialized())
 
-	cpy.Py_Finalize()
+	cpy.Py_FinalizeEx()
 
 	assert.False(t, cpy.Py_IsInitialized())
 }
 
 func TestInitializationEx(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	assert.True(t, cpy.Py_IsInitialized())
 	assert.Zero(t, cpy.Py_FinalizeEx())
@@ -28,6 +29,9 @@ func TestInitializationEx(t *testing.T) {
 }
 
 func TestPrefix(t *testing.T) {
+	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
+
 	prefix, err := cpy.Py_GetPrefix()
 
 	require.NoError(t, err)
@@ -35,6 +39,9 @@ func TestPrefix(t *testing.T) {
 }
 
 func TestExecPrefix(t *testing.T) {
+	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
+
 	execPrefix, err := cpy.Py_GetExecPrefix()
 
 	require.NoError(t, err)
@@ -42,6 +49,9 @@ func TestExecPrefix(t *testing.T) {
 }
 
 func TestProgramFullPath(t *testing.T) {
+	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
+
 	programFullPath, err := cpy.Py_GetProgramFullPath()
 
 	require.NoError(t, err)

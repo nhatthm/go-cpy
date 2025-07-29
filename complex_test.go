@@ -10,6 +10,7 @@ import (
 
 func TestComplex(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	nReal := 2.
 	nImaginary := 5.

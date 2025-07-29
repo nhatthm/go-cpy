@@ -10,6 +10,7 @@ import (
 
 func TestByteArrayCheck(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := "aaaaaaaa"
 
@@ -22,6 +23,7 @@ func TestByteArrayCheck(t *testing.T) {
 
 func TestByteArrayFromAsString(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := "aaaaaaaa"
 
@@ -33,6 +35,7 @@ func TestByteArrayFromAsString(t *testing.T) {
 
 func TestByteArrayConcat(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := "aaaaaaaa"
 	s2 := "bbbbbbbb"
@@ -58,6 +61,7 @@ func TestByteArrayConcat(t *testing.T) {
 
 func TestByteArrayResize(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := "aaaaaaaa"
 

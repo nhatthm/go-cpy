@@ -10,6 +10,7 @@ import (
 
 func TestUnicodeNew(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s := cpy.PyUnicode_New(20, 'z')
 	defer s.DecRef()
@@ -19,6 +20,7 @@ func TestUnicodeNew(t *testing.T) {
 
 func TestUnicodeFromString(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	u := cpy.PyUnicode_FromString("aaa")
 	defer u.DecRef()
@@ -30,6 +32,7 @@ func TestUnicodeFromString(t *testing.T) {
 
 func TestUnicodeFromEncodedObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	b := cpy.PyBytes_FromString("bbb")
 	defer b.DecRef()
@@ -44,6 +47,7 @@ func TestUnicodeFromEncodedObject(t *testing.T) {
 
 func TestUnicodeChar(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	u := cpy.PyUnicode_FromString("aaa")
 	defer u.DecRef()
@@ -56,6 +60,7 @@ func TestUnicodeChar(t *testing.T) {
 
 func TestUnicodeFill(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	u := cpy.PyUnicode_FromString("aaa")
 	defer u.DecRef()
@@ -68,6 +73,7 @@ func TestUnicodeFill(t *testing.T) {
 
 func TestUnicodeCopyCharacters(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	u := cpy.PyUnicode_FromString("aaa")
 	defer u.DecRef()
@@ -90,6 +96,7 @@ func TestUnicodeCopyCharacters(t *testing.T) {
 
 func TestUnicodeSubstring(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	u := cpy.PyUnicode_FromString("aaa")
 	defer u.DecRef()

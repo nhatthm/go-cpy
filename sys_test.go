@@ -10,6 +10,7 @@ import (
 
 func TestSysGetSetObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	platform := cpy.PySys_GetObject("platform")
 

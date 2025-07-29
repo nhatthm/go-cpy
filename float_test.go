@@ -11,6 +11,7 @@ import (
 
 func TestPyFloatCheck(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	pyFloat := cpy.PyFloat_FromDouble(345.)
 	defer pyFloat.DecRef()
@@ -21,6 +22,7 @@ func TestPyFloatCheck(t *testing.T) {
 
 func TestPyFloatFromAsDouble(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := 2354.
 
@@ -33,6 +35,7 @@ func TestPyFloatFromAsDouble(t *testing.T) {
 
 func TestPyFloatFromAsString(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	pyString := cpy.PyUnicode_FromString("2354")
 	defer pyString.DecRef()
@@ -46,6 +49,7 @@ func TestPyFloatFromAsString(t *testing.T) {
 
 func TestPyFloatMinMax(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	assert.InDelta(t, math.MaxFloat64, cpy.PyFloat_GetMax(), 0.01)
 	assert.InDelta(t, 2.2250738585072014e-308, cpy.PyFloat_GetMin(), 0.01)
@@ -53,6 +57,7 @@ func TestPyFloatMinMax(t *testing.T) {
 
 func TestPyFloatInfo(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	assert.NotNil(t, cpy.PyFloat_GetInfo())
 }

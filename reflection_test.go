@@ -10,6 +10,7 @@ import (
 
 func TestReflectionBuiltins(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	builtins := cpy.PyEval_GetBuiltins()
 
@@ -22,6 +23,7 @@ func TestReflectionBuiltins(t *testing.T) {
 
 func TestReflectionLocals(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	locals := cpy.PyEval_GetLocals()
 
@@ -30,6 +32,7 @@ func TestReflectionLocals(t *testing.T) {
 
 func TestReflectionGlobals(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	globals := cpy.PyEval_GetGlobals()
 
@@ -38,6 +41,7 @@ func TestReflectionGlobals(t *testing.T) {
 
 func TestReflectionFuncName(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	builtins := cpy.PyEval_GetBuiltins()
 
@@ -51,6 +55,7 @@ func TestReflectionFuncName(t *testing.T) {
 
 func TestReflectionFuncDesc(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	builtins := cpy.PyEval_GetBuiltins()
 

@@ -1,7 +1,7 @@
 # Go bindings for the CPython-3 C-API
 
 > [!IMPORTANT]
-> **Currently supports python-3.11 only.**
+> **Currently supports python-3.12 only.**
 
 This package provides a ``go`` package named "python" under which most of the ``PyXYZ`` functions and macros of the 
 public C-API of CPython have been exposed. Theoretically, you should be able use https://docs.python.org/3/c-api
@@ -9,17 +9,17 @@ and know what to type in your ``go`` program.
 
 ## Prerequisites
 
-- `go >= 1.21`
-- `python = 3.11.x`
+- `go >= 1.24`
+- `python = 3.12.x`
 
 ### MacOS
-  - `brew install python@3.11`
+  - `brew install python@3.12`
   - `brew install pkg-config`
 
 ### Linux
 
-We will need `pkg-config` and a working `python3.11` environment to build these bindings. Make sure you have Python 
-libraries and header files installed as well (`python3.11-dev` on Debian, `brew install python@3.11` on macOS, or 
+We will need `pkg-config` and a working `python3.12` environment to build these bindings. Make sure you have Python 
+libraries and header files installed as well (`python3.12-dev` on Debian, `brew install python@3.12` on macOS, or 
 `python3-devel` on Centos for example).
 
 By default `pkg-config` will look at the `python3` library so if you want to choose a specific version just symlink 
@@ -50,10 +50,10 @@ Take a look at some [examples](examples) and this [tutorial blogpost](https://po
 
 ## Versioning
 
-We follow the versioning of the CPython API. The version of this package is `3.11.x` which means it supports the CPython
-API version `3.11`. However, the patch version `x` is used to indicate the version of this package, not the CPython API.
-If you see a version `3.11.7`, it doesn't mean the module only supports CPython API version `3.11.7`, it's just the 7th
-time we patch to support the CPython API version `3.11`.
+We follow the versioning of the CPython API. The version of this package is `3.12.x` which means it supports the CPython
+API version `3.12`. However, the patch version `x` is used to indicate the version of this package, not the CPython API.
+If you see a version `3.12.7`, it doesn't mean the module only supports CPython API version `3.12.7`, it's just the 7th
+time we patch to support the CPython API version `3.12`.
 
 ## Contributing
 

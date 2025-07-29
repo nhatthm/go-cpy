@@ -12,6 +12,7 @@ import (
 
 func TestRunFile(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	pyErr, err := cpy.PyRun_AnyFile("resources/fixtures/test.py")
 	assert.Zero(t, pyErr)
@@ -27,6 +28,7 @@ func TestRunFile(t *testing.T) {
 
 func TestRunString(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	pythonCode, err := os.ReadFile("resources/fixtures/test.py")
 	require.NoError(t, err)
@@ -43,6 +45,7 @@ func TestRunString(t *testing.T) {
 
 func TestPyMain(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	pyErr, err := cpy.Py_Main([]string{"resources/fixtures/test.py"})
 
