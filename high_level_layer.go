@@ -1,7 +1,7 @@
 package cpy
 
 /*
-#cgo pkg-config: python-3.11-embed
+#cgo pkg-config: python-3.12-embed
 #include "Python.h"
 */
 import "C"
