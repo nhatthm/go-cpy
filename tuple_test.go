@@ -10,6 +10,7 @@ import (
 
 func TestTupleCheck(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	tuple := cpy.PyTuple_New(0)
 	defer tuple.DecRef()
@@ -20,6 +21,7 @@ func TestTupleCheck(t *testing.T) {
 
 func TestTupleNew(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	tuple := cpy.PyTuple_New(0)
 	defer tuple.DecRef()
@@ -29,6 +31,7 @@ func TestTupleNew(t *testing.T) {
 
 func TestTupleSize(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	size := 45
 
@@ -40,6 +43,7 @@ func TestTupleSize(t *testing.T) {
 
 func TestTupleGetSetItem(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s := cpy.PyUnicode_FromString("test")
 
@@ -56,6 +60,7 @@ func TestTupleGetSetItem(t *testing.T) {
 
 func TestTupleGetSlice(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s := cpy.PyUnicode_FromString("test")
 

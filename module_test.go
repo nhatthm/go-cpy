@@ -11,6 +11,7 @@ import (
 
 func TestModuleCheck(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	name := "test_module"
 
@@ -23,6 +24,7 @@ func TestModuleCheck(t *testing.T) {
 
 func TestModuleNew(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	name := "test_module"
 
@@ -34,6 +36,7 @@ func TestModuleNew(t *testing.T) {
 
 func TestModuleNewObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	name := "test_module"
 
@@ -50,6 +53,7 @@ func TestModuleNewObject(t *testing.T) {
 
 func TestModuleGetDict(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	name := "sys"
 
@@ -66,6 +70,7 @@ func TestModuleGetDict(t *testing.T) {
 
 func TestModuleGetName(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	name := "sys"
 
@@ -80,6 +85,7 @@ func TestModuleGetName(t *testing.T) {
 
 func TestModuleGetNameObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	name := "sys"
 
@@ -94,6 +100,7 @@ func TestModuleGetNameObject(t *testing.T) {
 
 func TestModuleGetState(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	name := "sys"
 
@@ -110,6 +117,7 @@ func TestModuleGetState(t *testing.T) {
 
 func TestModuleGetFilenameObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	name := "queue"
 

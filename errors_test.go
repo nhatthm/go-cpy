@@ -10,6 +10,7 @@ import (
 
 func TestErrorSetString(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_SetString(cpy.PyExc_BaseException, "test message")
 
@@ -20,6 +21,7 @@ func TestErrorSetString(t *testing.T) {
 
 func TestErrorSetObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	message := cpy.PyUnicode_FromString("test message")
 	defer message.DecRef()
@@ -33,6 +35,7 @@ func TestErrorSetObject(t *testing.T) {
 
 func TestErrorSetNone(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	message := cpy.PyUnicode_FromString("test message")
 	defer message.DecRef()
@@ -46,6 +49,7 @@ func TestErrorSetNone(t *testing.T) {
 
 func TestErrorSetObjectEx(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	message := cpy.PyUnicode_FromString("test message")
 	defer message.DecRef()
@@ -59,6 +63,7 @@ func TestErrorSetObjectEx(t *testing.T) {
 
 func TestErrorWriteUnraisable(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	message := cpy.PyUnicode_FromString("unraisable exception")
 	defer message.DecRef()
@@ -70,6 +75,7 @@ func TestErrorWriteUnraisable(t *testing.T) {
 
 func TestErrorBadArgument(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_BadArgument()
 
@@ -82,6 +88,7 @@ func TestErrorBadArgument(t *testing.T) {
 
 func TestErrorNoMemory(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_NoMemory()
 
@@ -92,6 +99,7 @@ func TestErrorNoMemory(t *testing.T) {
 
 func TestErrorBadInternalCall(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_BadInternalCall()
 
@@ -102,6 +110,7 @@ func TestErrorBadInternalCall(t *testing.T) {
 
 func TestErrorImportError(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	message := cpy.PyUnicode_FromString("test message")
 	defer message.DecRef()
@@ -115,6 +124,7 @@ func TestErrorImportError(t *testing.T) {
 
 func TestErrorImportErrorSubclass(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	message := cpy.PyUnicode_FromString("test message")
 	defer message.DecRef()
@@ -128,6 +138,7 @@ func TestErrorImportErrorSubclass(t *testing.T) {
 
 func TestErrorSyntax(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_SetNone(cpy.PyExc_SyntaxError)
 
@@ -141,6 +152,7 @@ func TestErrorSyntax(t *testing.T) {
 
 func TestErrorSyntaxEx(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_SetNone(cpy.PyExc_SyntaxError)
 
@@ -154,6 +166,7 @@ func TestErrorSyntaxEx(t *testing.T) {
 
 func TestErrorSyntaxLocation(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_SetNone(cpy.PyExc_SyntaxError)
 
@@ -169,6 +182,7 @@ func TestErrorSyntaxLocation(t *testing.T) {
 
 func TestErrorExceptionMatches(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_SetNone(cpy.PyExc_BufferError)
 
@@ -181,12 +195,14 @@ func TestErrorExceptionMatches(t *testing.T) {
 
 func TestErrorGivenExceptionMatches(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	assert.True(t, cpy.PyErr_GivenExceptionMatches(cpy.PyExc_BufferError, cpy.PyExc_BufferError))
 }
 
 func TestErrorRaisedException(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_SetNone(cpy.PyExc_BufferError)
 
@@ -204,6 +220,7 @@ func TestErrorRaisedException(t *testing.T) {
 
 func TestErrorGetSetExcInfo(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_SetNone(cpy.PyExc_BufferError)
 
@@ -223,6 +240,7 @@ func TestErrorInterrupt(t *testing.T) {
 	// https://docs.python.org/3/c-api/exceptions.html#c.cpy3.PyErr_CheckSignals
 	t.Skip("cpy3.PyErr_CheckSignals unconditionally returns 0 in embedded builds")
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	cpy.PyErr_SetInterrupt()
 

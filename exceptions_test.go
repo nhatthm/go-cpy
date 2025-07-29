@@ -10,6 +10,7 @@ import (
 
 func TestExceptionNew(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	exc := cpy.PyErr_NewException("test_module.TestException", nil, nil)
 	defer exc.DecRef()
@@ -19,6 +20,7 @@ func TestExceptionNew(t *testing.T) {
 
 func TestExceptionNewDoc(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	exc := cpy.PyErr_NewExceptionWithDoc("test_module.TestException", "docstring", nil, nil)
 	defer exc.DecRef()
@@ -29,6 +31,7 @@ func TestExceptionNewDoc(t *testing.T) {
 func TestExceptionContext(t *testing.T) {
 	t.Skip("fatal error: unexpected signal during runtime execution")
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	exc := cpy.PyErr_NewException("test_module.TestException", nil, nil)
 	defer exc.DecRef()

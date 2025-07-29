@@ -10,6 +10,7 @@ import (
 
 func TestRecursion(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	assert.Zero(t, cpy.Py_EnterRecursiveCall("in test function"))
 

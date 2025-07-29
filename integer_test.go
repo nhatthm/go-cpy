@@ -11,6 +11,7 @@ import (
 
 func TestPyLongCheck(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	pyLong := cpy.PyLong_FromGoInt(345)
 	defer pyLong.DecRef()
@@ -21,6 +22,7 @@ func TestPyLongCheck(t *testing.T) {
 
 func TestPyLongFromAsLong(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := 2354
 
@@ -33,6 +35,7 @@ func TestPyLongFromAsLong(t *testing.T) {
 
 func TestPyLongFromAsUnsignedLong(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := uint(2354)
 
@@ -45,6 +48,7 @@ func TestPyLongFromAsUnsignedLong(t *testing.T) {
 
 func TestPyLongFromAsLongLong(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := int64(2354)
 
@@ -57,6 +61,7 @@ func TestPyLongFromAsLongLong(t *testing.T) {
 
 func TestPyLongFromAsUnsignedLongLong(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := uint64(2354)
 
@@ -69,6 +74,7 @@ func TestPyLongFromAsUnsignedLongLong(t *testing.T) {
 
 func TestPyLongFromAsDouble(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := float64(2354.0)
 
@@ -81,6 +87,7 @@ func TestPyLongFromAsDouble(t *testing.T) {
 
 func TestPyLongFromAsGoFloat64(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := float64(2354.0)
 
@@ -93,6 +100,7 @@ func TestPyLongFromAsGoFloat64(t *testing.T) {
 
 func TestPyLongFromAsString(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := 2354
 	s := strconv.Itoa(v)
@@ -106,6 +114,7 @@ func TestPyLongFromAsString(t *testing.T) {
 
 func TestPyLongFromAsUnicodeObject(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := 2354
 	s := strconv.Itoa(v)
@@ -124,6 +133,7 @@ func TestPyLongFromAsUnicodeObject(t *testing.T) {
 
 func TestPyLongFromAsGoInt(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := 2354
 
@@ -136,6 +146,7 @@ func TestPyLongFromAsGoInt(t *testing.T) {
 
 func TestPyLongFromAsGoUint(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := uint(2354)
 
@@ -148,6 +159,7 @@ func TestPyLongFromAsGoUint(t *testing.T) {
 
 func TestPyLongFromAsGoInt64(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := int64(2354)
 
@@ -160,6 +172,7 @@ func TestPyLongFromAsGoInt64(t *testing.T) {
 
 func TestPyLongFromAsGoUint64(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	v := uint64(2354)
 

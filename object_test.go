@@ -10,6 +10,7 @@ import (
 
 func TestAttrString(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	sys := cpy.PyImport_ImportModule("sys")
 	defer sys.DecRef()
@@ -29,6 +30,7 @@ func TestAttrString(t *testing.T) {
 
 func TestAttr(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	name := cpy.PyUnicode_FromString("stdout")
 	defer name.DecRef()
@@ -51,6 +53,7 @@ func TestAttr(t *testing.T) {
 
 func TestRichCompareBool(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := cpy.PyUnicode_FromString("test1")
 	s2 := cpy.PyUnicode_FromString("test2")
@@ -61,6 +64,7 @@ func TestRichCompareBool(t *testing.T) {
 
 func TestRichCompare(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := cpy.PyUnicode_FromString("test1")
 	s2 := cpy.PyUnicode_FromString("test2")
@@ -78,6 +82,7 @@ func TestRichCompare(t *testing.T) {
 
 func TestRepr(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	list := cpy.PyList_New(0)
 	defer list.DecRef()
@@ -89,6 +94,7 @@ func TestRepr(t *testing.T) {
 
 func TestStr(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	list := cpy.PyList_New(0)
 	defer list.DecRef()
@@ -100,6 +106,7 @@ func TestStr(t *testing.T) {
 
 func TestASCII(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	list := cpy.PyList_New(0)
 	defer list.DecRef()
@@ -111,6 +118,7 @@ func TestASCII(t *testing.T) {
 
 func TestCallable(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	builtins := cpy.PyEval_GetBuiltins()
 
@@ -152,6 +160,7 @@ func TestCallable(t *testing.T) {
 
 func TestCallMethod(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s := cpy.PyUnicode_FromString("hello world")
 	defer s.DecRef()
@@ -199,6 +208,7 @@ func TestCallMethod(t *testing.T) {
 
 func TestIsTrue(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	b := cpy.Py_True.IsTrue() != 0
 
@@ -211,6 +221,7 @@ func TestIsTrue(t *testing.T) {
 
 func TestNot(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	b := cpy.Py_True.Not() != 0
 
@@ -223,6 +234,7 @@ func TestNot(t *testing.T) {
 
 func TestLength(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	length := 6
 
@@ -236,6 +248,7 @@ func TestLength(t *testing.T) {
 
 func TestLengthHint(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	length := 6
 
@@ -249,6 +262,7 @@ func TestLengthHint(t *testing.T) {
 
 func TestObjectItem(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	key := cpy.PyUnicode_FromString("key")
 	defer key.DecRef()
@@ -272,6 +286,7 @@ func TestObjectItem(t *testing.T) {
 
 func TestDir(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	list := cpy.PyList_New(0)
 	defer list.DecRef()
@@ -287,6 +302,7 @@ func TestDir(t *testing.T) {
 
 func TestReprEnterLeave(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s := cpy.PyUnicode_FromString("hello world")
 	defer s.DecRef()
@@ -300,6 +316,7 @@ func TestReprEnterLeave(t *testing.T) {
 
 func TestIsSubclass(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	assert.Equal(t, 1, cpy.PyExc_Warning.IsSubclass(cpy.PyExc_Exception))
 	assert.Equal(t, 0, cpy.Bool.IsSubclass(cpy.Float))
@@ -307,6 +324,7 @@ func TestIsSubclass(t *testing.T) {
 
 func TestHash(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s := cpy.PyUnicode_FromString("test string")
 	defer s.DecRef()
@@ -316,6 +334,7 @@ func TestHash(t *testing.T) {
 
 func TestObjectType(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	i := cpy.PyLong_FromGoInt(23543)
 	defer i.DecRef()
@@ -325,6 +344,7 @@ func TestObjectType(t *testing.T) {
 
 func TestHashNotImplemented(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s := cpy.PyUnicode_FromString("test string")
 	defer s.DecRef()
@@ -337,6 +357,7 @@ func TestHashNotImplemented(t *testing.T) {
 
 func TestObjectIter(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	i := cpy.PyLong_FromGoInt(23)
 	defer i.DecRef()

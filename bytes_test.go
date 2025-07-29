@@ -10,6 +10,7 @@ import (
 
 func TestBytesCheck(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := "aaaaaaaa"
 
@@ -22,6 +23,7 @@ func TestBytesCheck(t *testing.T) {
 
 func TestBytesFromAsString(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := "aaaaaaaa"
 
@@ -33,6 +35,7 @@ func TestBytesFromAsString(t *testing.T) {
 
 func TestBytesSize(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := "aaaaaaaa"
 
@@ -44,6 +47,7 @@ func TestBytesSize(t *testing.T) {
 
 func TestBytesConcat(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := "aaaaaaaa"
 	s2 := "bbbbbbbb"
@@ -67,6 +71,7 @@ func TestBytesConcat(t *testing.T) {
 
 func TestBytesConcatAndDel(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := "aaaaaaaa"
 	s2 := "bbbbbbbb"
@@ -86,6 +91,7 @@ func TestBytesConcatAndDel(t *testing.T) {
 
 func TestByteSlices(t *testing.T) {
 	cpy.Py_Initialize()
+	defer cpy.Py_FinalizeEx()
 
 	s1 := []byte("aaaaaaaa")
 	s2 := []byte("bbbbbbbb")
